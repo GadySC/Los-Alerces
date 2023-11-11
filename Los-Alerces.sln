@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33723.286
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LosAlerces_Login", "LosAlerces_Login\LosAlerces_Login.csproj", "{2E1FC748-0533-4E7B-A7A7-58941AA7AC2C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LosAlerces_DBManagement", "LosAlerces_DBManagement\LosAlerces_DBManagement.csproj", "{E9B9C314-CC9D-49F8-8275-E6230CDDB36F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E1FC748-0533-4E7B-A7A7-58941AA7AC2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E1FC748-0533-4E7B-A7A7-58941AA7AC2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E1FC748-0533-4E7B-A7A7-58941AA7AC2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E1FC748-0533-4E7B-A7A7-58941AA7AC2C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9B9C314-CC9D-49F8-8275-E6230CDDB36F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9B9C314-CC9D-49F8-8275-E6230CDDB36F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9B9C314-CC9D-49F8-8275-E6230CDDB36F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9B9C314-CC9D-49F8-8275-E6230CDDB36F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {50A44235-1D3A-4D60-8785-B5CF24E513AB}
+	EndGlobalSection
+EndGlobal

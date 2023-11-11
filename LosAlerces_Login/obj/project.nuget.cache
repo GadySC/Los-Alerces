@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "h9a8cJWj62ZIbtYteYMS7xeS1HY5a3T1dgByhhvwn40k6/AAxHkuszm9poysNiLKSj227WdL8UyD++3Lqnfhhg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\ga123\\Source\\Repos\\Los-Alerces\\LosAlerces_Login\\LosAlerces_Login.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ga123\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\ga123\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\ga123\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "C:\\Users\\ga123\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "C:\\Users\\ga123\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "C:\\Users\\ga123\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}

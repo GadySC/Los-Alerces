@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "PpxGreWyT4gfzwUz3cOAqk4zh/yMhHDxGsyLR0pwtCnGmpahabupeL5JR4klcUZAcXRUdZ+K/lTGsfSf+SkjyA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\ga123\\Source\\Repos\\Los-Alerces\\LosAlerces_DBManagement\\LosAlerces_DBManagement.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ga123\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
+    "C:\\Users\\ga123\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\ga123\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
+    "C:\\Users\\ga123\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
+    "C:\\Users\\ga123\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
+    "C:\\Users\\ga123\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512"
+  ],
+  "logs": []
+}

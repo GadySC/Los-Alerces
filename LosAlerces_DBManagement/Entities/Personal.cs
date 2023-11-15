@@ -1,4 +1,4 @@
-﻿namespace LosAlerces_Login.Entities
+﻿namespace LosAlerces_DBManagement.Entities
 {
     public class Personal
     {

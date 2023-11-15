@@ -62,7 +62,6 @@ namespace LosAlerces_Login.Services
                         new Claim(ClaimTypes.Email, user.Email),
                         new Claim(ClaimTypes.Name, user.Nombre),
                         new Claim(ClaimTypes.Surname, user.Apellido),
-                        // El rol se obtiene y se agrega al token
                         new Claim(ClaimTypes.Role, (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? _userRole)
                     }),
                     Expires = DateTime.UtcNow.AddMinutes(double.Parse(_configuration["Jwt:AccessTokenExpirationMinutes"])),

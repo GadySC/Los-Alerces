@@ -10,12 +10,14 @@ namespace LosAlerces_Login.Services
     public class AuthRepository : IAuthRepository
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly string _userRole = "UsuarioBasico"; // Rol por defecto para todos los nuevos usuarios
 
-        public AuthRepository(UserManager<ApplicationUser> userManager, IConfiguration configuration)
+        public AuthRepository(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _configuration = configuration;
         }
 
@@ -71,6 +73,30 @@ namespace LosAlerces_Login.Services
             }
 
             return null;
+        }
+
+        public async Task<IdentityResult> AssignRoleToUserAsync(string userEmail, string roleName)
+        {
+            var user = await _userManager.FindByEmailAsync(userEmail);
+            if (user != null)
+            {
+                var roleExist = await _roleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    var roleResult = await _roleManager.CreateAsync(new IdentityRole(roleName));
+                    if (!roleResult.Succeeded)
+                    {
+                        return roleResult;
+                    }
+                }
+                var isInRole = await _userManager.IsInRoleAsync(user, roleName);
+                if (!isInRole)
+                {
+                    return await _userManager.AddToRoleAsync(user, roleName);
+                }
+                return IdentityResult.Success;
+            }
+            return IdentityResult.Failed(new IdentityError { Description = "Usuario no encontrado." });
         }
     }
 }

@@ -1,6 +1,7 @@
 using LosAlerces_Login.Context;
 using LosAlerces_Login.Models;
 using LosAlerces_Login.Services;
+using LosAlerces_Login.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,8 +9,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 builder.Services.AddControllers();
 
@@ -39,14 +38,17 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<LosAlercesDbContext>()
     .AddDefaultTokenProviders();
 
-/* --------------------- Inyeccion de dependencias --------------------- */
+/* --------------------- Inyección de dependencias --------------------- */
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(); 
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// Sembrar el usuario administrador y sus roles
+await app.SeedDatabase(); // Aquí se llama al método de sembrado
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

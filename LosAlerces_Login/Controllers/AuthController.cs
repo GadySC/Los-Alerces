@@ -1,9 +1,11 @@
 ﻿using LosAlerces_Login.Models;
 using LosAlerces_Login.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -28,7 +30,7 @@ namespace LosAlerces_Login.Controllers
 
             if (result.Succeeded)
             {
-                return Ok(new { message = "User registered successfully" });
+                return Ok(new { message = "Usuario registrado exitosamente." });
             }
 
             return BadRequest(result.Errors);
@@ -44,7 +46,21 @@ namespace LosAlerces_Login.Controllers
                 return Ok(new { token = token });
             }
 
-            return Unauthorized(new { message = "Invalid credentials" });
+            return Unauthorized(new { message = "Credenciales incorrectas." });
+        }
+
+        [HttpPost("asignar-rol")]
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> AssignRole([FromBody] RoleAssignmentModel model)
+        {
+            var result = await _authRepository.AssignRoleToUserAsync(model.UserEmail, model.RoleName);
+
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+
+            return BadRequest(result.Errors);
         }
 
     }

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "PpxGreWyT4gfzwUz3cOAqk4zh/yMhHDxGsyLR0pwtCnGmpahabupeL5JR4klcUZAcXRUdZ+K/lTGsfSf+SkjyA==",
+  "dgSpecHash": "bj9U0VrR7eoSFhB2anBRAHHeeaor2cehZLZUv92+uvR21t0iyAXFUJC42999ey4sJcL5MRNOO2pDZhYcOZu7lw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ga123\\Source\\Repos\\Los-Alerces\\LosAlerces_DBManagement\\LosAlerces_DBManagement.csproj",
+  "projectFilePath": "C:\\Users\\ga123\\source\\repos\\Los-Alerces\\LosAlerces_DBManagement\\LosAlerces_DBManagement.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ga123\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\ga123\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",

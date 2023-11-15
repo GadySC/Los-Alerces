@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\LosAlerces_DBManagement.props" />
-</Project>

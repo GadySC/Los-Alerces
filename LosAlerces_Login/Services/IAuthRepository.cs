@@ -7,5 +7,6 @@ namespace LosAlerces_Login.Services
     {
         Task<IdentityResult> RegisterUserAsync(RegisterModel model);
         Task<string> LoginUserAsync(LoginModel model);
+        Task<IdentityResult> AssignRoleToUserAsync(string userEmail, string roleName);
     }
 }

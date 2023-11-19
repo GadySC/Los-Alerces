@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "fvfQh96MBcekKXgekqsidS8IO3DKPpqHk+6tyzSWORkC+rEcyF4GvbCZVdeNILxCWHnna8I/aTMRuMbgR/iUUg==",
+  "dgSpecHash": "RIA2309+Rhx/jkZG/HgBLZgl6jtI+wBqn3TPAQxEhNBQhkemJAJWuFMHmkfu/XaXGjMI+E/j8NUosBxbbVHeBg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ga123\\source\\repos\\Los-Alerces\\LosAlerces_DBManagement\\LosAlerces_DBManagement.csproj",
+  "projectFilePath": "C:\\Users\\ga123\\Source\\Repos\\Los-Alerces-Backend\\LosAlerces_DBManagement\\LosAlerces_DBManagement.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ga123\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\ga123\\.nuget\\packages\\linqkit.microsoft.entityframeworkcore\\6.0.27\\linqkit.microsoft.entityframeworkcore.6.0.27.nupkg.sha512",

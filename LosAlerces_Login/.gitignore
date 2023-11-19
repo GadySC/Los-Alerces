@@ -1,0 +1,16 @@
+# Excluir directorio .vs
+.vs/
+
+# Excluir archivos de configuración
+**/appsettings.json
+
+# Archivos temporales
+*.tmp
+*.temp
+
+# Directorios de compilación
+bin/
+obj/
+
+# Archivos de paquetes
+*.nupkg

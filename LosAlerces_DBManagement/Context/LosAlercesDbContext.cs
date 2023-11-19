@@ -14,9 +14,10 @@ namespace LosAlerces_DBManagement.Context
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Contactos> Contactos { get; set; }
         public DbSet<Productos> Productos { get; set; }
-        public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Personal> Personal { get; set; }
         public DbSet<Cotizacion> Cotizaciones { get; set; }
+        public DbSet<ProductoCotizacion> ProductosCotizacion { get; set; }
+        public DbSet<PersonalCotizacion> PersonalCotizacion { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -26,61 +27,66 @@ namespace LosAlerces_DBManagement.Context
             builder.Entity<Cliente>(entity =>
             {
                 entity.HasKey(e => e.ID_Cliente);
-                entity.Property(e => e.Nombre_Empresa).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.Direccion).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.name).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.address).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.phone).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.email).IsRequired().HasMaxLength(255);
                 entity.HasMany(c => c.Contactos).WithOne(e => e.Cliente).HasForeignKey(e => e.ID_Cliente);
             });
 
             builder.Entity<Contactos>(entity =>
             {
                 entity.HasKey(e => e.ID_Contactos);
-                entity.Property(e => e.Nombre).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.Apellido).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.Email).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.Telefono).HasMaxLength(20);
+                entity.Property(e => e.name).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.lastname).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.email).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.phone).HasMaxLength(20);
             });
 
             // Configuración de la entidad Productos
             builder.Entity<Productos>(entity =>
             {
                 entity.HasKey(e => e.ID_Productos);
-                entity.Property(e => e.Nombre_Producto).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.Descripcion).HasMaxLength(255);
-                entity.Property(e => e.Precio).HasColumnType("DECIMAL(10, 2)");
-                entity.Property(e => e.Stock).IsRequired();
-            });
-
-            // Configuración de la entidad Categoria
-            builder.Entity<Categoria>(entity =>
-            {
-                entity.HasKey(e => e.ID_Categoria);
-                entity.Property(e => e.Nombre_Categoria).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.name).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.note).HasMaxLength(255);
+                entity.Property(e => e.price).HasColumnType("DECIMAL(10, 2)");
             });
 
             // Configuración de la entidad Personal
             builder.Entity<Personal>(entity =>
             {
                 entity.HasKey(e => e.ID_Personal);
-                entity.Property(e => e.Nombre).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.Apellido).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.Cargo).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.Salario).HasColumnType("DECIMAL(10, 2)");
-                entity.Property(e => e.Email).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.Direccion).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.name).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.lastname).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.profession).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.salary).HasColumnType("DECIMAL(10, 2)");
+                entity.Property(e => e.email).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.address).IsRequired().HasMaxLength(255);
+                entity.Property(e => e.phone).IsRequired().HasMaxLength(255);
             });
 
             // Configuración de la entidad Cotizacion
             builder.Entity<Cotizacion>(entity =>
             {
                 entity.HasKey(e => e.ID_Cotizacion);
-                entity.HasOne(c => c.Cliente).WithMany().HasForeignKey(e => e.ID_Cliente);
-                entity.HasOne(c => c.Productos).WithMany().HasForeignKey(e => e.ID_Producto);
-                entity.HasOne(c => c.Personal).WithMany().HasForeignKey(e => e.ID_Personal);
-                entity.Property(e => e.Fecha_cotizacion).IsRequired().HasColumnType("DATE");
-                entity.Property(e => e.Cantidad).IsRequired();
-                entity.Property(e => e.Precio_Unitario).HasColumnType("DECIMAL(10, 2)");
-                entity.Property(e => e.Total).HasColumnType("DECIMAL(10, 2)");
+                entity.HasOne(c => c.Cliente).WithMany().HasForeignKey(c => c.ID_Cliente);
+                entity.Property(e => e.QuotationDate).IsRequired().HasColumnType("DATE");
+                entity.Property(e => e.quantityofproduct).IsRequired();
+                entity.HasMany(c => c.ProductosCotizacion)
+                      .WithOne(p => p.Cotizacion)
+                      .HasForeignKey(p => p.ID_Cotizacion);
+                entity.HasMany(c => c.PersonalCotizacion)
+                      .WithOne(p => p.Cotizacion)
+                      .HasForeignKey(p => p.ID_Cotizacion);
             });
+
+            // Configuraciones para las relaciones de muchos a muchos
+            builder.Entity<ProductoCotizacion>()
+                .HasKey(pc => new { pc.ID_Cotizacion, pc.ID_Producto });
+
+            builder.Entity<PersonalCotizacion>()
+                .HasKey(pc => new { pc.ID_Cotizacion, pc.ID_Personal });
+
         }
     }
 }

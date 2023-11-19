@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ga123\\source\\repos\\Los-Alerces\\LosAlerces_DBManagement\\LosAlerces_DBManagement.csproj": {}
+    "C:\\Users\\ga123\\Source\\Repos\\Los-Alerces-Backend\\LosAlerces_DBManagement\\LosAlerces_DBManagement.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ga123\\source\\repos\\Los-Alerces\\LosAlerces_DBManagement\\LosAlerces_DBManagement.csproj": {
+    "C:\\Users\\ga123\\Source\\Repos\\Los-Alerces-Backend\\LosAlerces_DBManagement\\LosAlerces_DBManagement.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ga123\\source\\repos\\Los-Alerces\\LosAlerces_DBManagement\\LosAlerces_DBManagement.csproj",
+        "projectUniqueName": "C:\\Users\\ga123\\Source\\Repos\\Los-Alerces-Backend\\LosAlerces_DBManagement\\LosAlerces_DBManagement.csproj",
         "projectName": "LosAlerces_DBManagement",
-        "projectPath": "C:\\Users\\ga123\\source\\repos\\Los-Alerces\\LosAlerces_DBManagement\\LosAlerces_DBManagement.csproj",
+        "projectPath": "C:\\Users\\ga123\\Source\\Repos\\Los-Alerces-Backend\\LosAlerces_DBManagement\\LosAlerces_DBManagement.csproj",
         "packagesPath": "C:\\Users\\ga123\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ga123\\source\\repos\\Los-Alerces\\LosAlerces_DBManagement\\obj\\",
+        "outputPath": "C:\\Users\\ga123\\Source\\Repos\\Los-Alerces-Backend\\LosAlerces_DBManagement\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ga123\\AppData\\Roaming\\NuGet\\NuGet.Config",

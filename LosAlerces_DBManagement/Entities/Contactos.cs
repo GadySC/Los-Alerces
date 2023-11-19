@@ -4,10 +4,10 @@
     {
         public int ID_Contactos { get; set; }
         public int ID_Cliente { get; set; }
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public string Email { get; set; }
-        public string Telefono { get; set; }
+        public string name { get; set; }
+        public string lastname { get; set; }
+        public string email { get; set; }
+        public string phone { get; set; }
         public virtual Cliente Cliente { get; set; }
     }
 }

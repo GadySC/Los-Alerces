@@ -3,11 +3,12 @@
     public class Personal
     {
         public int ID_Personal { get; set; }
-        public string Nombre { get; set; }
-        public string Apellido { get; set; }
-        public string Cargo { get; set; }
-        public decimal Salario { get; set; }
-        public string Email { get; set; }
-        public string Direccion { get; set; }
+        public string name { get; set; }
+        public string lastname { get; set; }
+        public string profession { get; set; }
+        public decimal salary { get; set; }
+        public string email { get; set; }
+        public string address { get; set; }
+        public string phone { get; set; }
     }
 }

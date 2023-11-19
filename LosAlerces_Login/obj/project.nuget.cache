@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "quXK3bwZAeL0Qs8SRM7aKhIAFyyWzhzfeHttv63vP6xoyOQwnKwPXTgZdbT78UZ59FGTaMDV+dQkvvKjU2VgGg==",
+  "dgSpecHash": "h9yn+ugVGzfanG9rcT8hagh4BibGab29caZ3yavoXVa3pzTfLJSNiPIBC9SrNr6ClCmBw/DpVigkxHeCVnY5Ig==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ga123\\source\\repos\\Los-Alerces\\LosAlerces_Login\\LosAlerces_Login.csproj",
+  "projectFilePath": "C:\\Users\\ga123\\Source\\Repos\\Los-Alerces-Backend\\LosAlerces_Login\\LosAlerces_Login.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ga123\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\ga123\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",

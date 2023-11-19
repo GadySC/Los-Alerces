@@ -3505,11 +3505,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\ga123\\Source\\Repos\\Los-Alerces\\LosAlerces_Login\\LosAlerces_Login.csproj",
+      "projectUniqueName": "C:\\Users\\ga123\\Source\\Repos\\Los-Alerces-Backend\\LosAlerces_Login\\LosAlerces_Login.csproj",
       "projectName": "LosAlerces_Login",
-      "projectPath": "C:\\Users\\ga123\\Source\\Repos\\Los-Alerces\\LosAlerces_Login\\LosAlerces_Login.csproj",
+      "projectPath": "C:\\Users\\ga123\\Source\\Repos\\Los-Alerces-Backend\\LosAlerces_Login\\LosAlerces_Login.csproj",
       "packagesPath": "C:\\Users\\ga123\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\ga123\\Source\\Repos\\Los-Alerces\\LosAlerces_Login\\obj\\",
+      "outputPath": "C:\\Users\\ga123\\Source\\Repos\\Los-Alerces-Backend\\LosAlerces_Login\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ga123\\AppData\\Roaming\\NuGet\\NuGet.Config",

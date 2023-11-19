@@ -4,7 +4,11 @@ namespace LosAlerces_DBManagement.Services.Interfaces
 {
     public interface IGeneralDataInterface
     {
-        Task<IEnumerable<Cliente>> GetClienteListAsync();
+        Task<IEnumerable<Cliente>> GetAllClientesAsync();
+        Task<Cliente> GetClienteByIdAsync(int clienteId);
+        Task CreateClienteAsync(Cliente cliente);
+        Task UpdateClienteAsync(Cliente cliente);
+        Task DeleteClienteAsync(int clienteId);
         Task<IEnumerable<Contactos>> GetContactosListAsync();
         Task<IEnumerable<Cotizacion>> GetCotizacionListAsync();
         Task<IEnumerable<Personal>> GetPersonalListAsync();

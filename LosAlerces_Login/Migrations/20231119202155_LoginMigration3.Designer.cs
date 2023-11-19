@@ -4,6 +4,7 @@ using LosAlerces_Login.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LosAlerces_Login.Migrations
 {
     [DbContext(typeof(LosAlercesDbContextLogin))]
-    partial class LosAlercesDbContextLoginModelSnapshot : ModelSnapshot
+    [Migration("20231119202155_LoginMigration3")]
+    partial class LoginMigration3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

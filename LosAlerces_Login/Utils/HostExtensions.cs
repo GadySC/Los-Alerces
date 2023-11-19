@@ -38,9 +38,9 @@ namespace LosAlerces_Login.Utils
             }
 
             // Información del usuario administrador
-            var adminEmail = "gady.gaspar.sepulveda@gmail.com";
+            var adminEmail = "gaspar.retamal@gmail.com";
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
-            var adminPassword = "Gady123."; // Debería obtenerse de una fuente segura y no estar hardcodeada
+            var adminPassword = "Retamal123."; // Debería obtenerse de una fuente segura y no estar hardcodeada
 
             // Si el usuario administrador no existe, crearlo
             if (adminUser == null)
@@ -49,9 +49,9 @@ namespace LosAlerces_Login.Utils
                 {
                     UserName = adminEmail,
                     Email = adminEmail,
-                    Nombre = "Gady",
-                    Apellido = "Sepulveda",
-                    Rut = "10337022-1"
+                    Nombre = "Gaspar",
+                    Apellido = "Retamal",
+                    Rut = "10285279-6"
                 };
 
                 var createAdminUser = await userManager.CreateAsync(adminUser, adminPassword);

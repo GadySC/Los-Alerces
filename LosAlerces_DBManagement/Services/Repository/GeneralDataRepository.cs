@@ -14,9 +14,36 @@ namespace LosAlerces_DBManagement.Services.Repository
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<IEnumerable<Cliente>> GetClienteListAsync()
+        public async Task<IEnumerable<Cliente>> GetAllClientesAsync()
         {
             return await _context.Clientes.ToListAsync();
+        }
+
+        public async Task<Cliente> GetClienteByIdAsync(int clienteId)
+        {
+            return await _context.Clientes.FindAsync(clienteId);
+        }
+
+        public async Task CreateClienteAsync(Cliente cliente)
+        {
+            await _context.Clientes.AddAsync(cliente);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateClienteAsync(Cliente cliente)
+        {
+            _context.Entry(cliente).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteClienteAsync(int clienteId)
+        {
+            var cliente = await GetClienteByIdAsync(clienteId);
+            if (cliente != null)
+            {
+                _context.Clientes.Remove(cliente);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<IEnumerable<Contactos>> GetContactosListAsync()

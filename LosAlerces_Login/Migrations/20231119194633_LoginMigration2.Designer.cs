@@ -4,6 +4,7 @@ using LosAlerces_Login.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LosAlerces_Login.Migrations
 {
     [DbContext(typeof(LosAlercesDbContextLogin))]
-    partial class LosAlercesDbContextLoginModelSnapshot : ModelSnapshot
+    [Migration("20231119194633_LoginMigration2")]
+    partial class LoginMigration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -444,7 +446,9 @@ namespace LosAlerces_Login.Migrations
                 {
                     b.HasOne("LosAlerces_Login.Entities.Cliente", "Cliente")
                         .WithOne("Contacto")
-                        .HasForeignKey("LosAlerces_Login.Entities.Contactos", "ID_Cliente");
+                        .HasForeignKey("LosAlerces_Login.Entities.Contactos", "ID_Cliente")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Cliente");
                 });

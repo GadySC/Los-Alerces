@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LosAlerces_Login", "LosAlerces_Login\LosAlerces_Login.csproj", "{2E1FC748-0533-4E7B-A7A7-58941AA7AC2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LosAlerces_Login", "LosAlerces_Login\LosAlerces_Login.csproj", "{2E1FC748-0533-4E7B-A7A7-58941AA7AC2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LosAlerces_DBManagement", "LosAlerces_DBManagement\LosAlerces_DBManagement.csproj", "{E9B9C314-CC9D-49F8-8275-E6230CDDB36F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LosAlerces_DBManagement", "LosAlerces_DBManagement\LosAlerces_DBManagement.csproj", "{E9B9C314-CC9D-49F8-8275-E6230CDDB36F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

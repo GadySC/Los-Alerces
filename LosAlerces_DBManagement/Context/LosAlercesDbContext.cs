@@ -34,7 +34,8 @@ namespace LosAlerces_DBManagement.Context
 
                 entity.HasOne(c => c.Contacto)
                       .WithOne(co => co.Cliente)
-                      .HasForeignKey<Contactos>(co => co.ID_Cliente);
+                      .HasForeignKey<Contactos>(co => co.ID_Cliente)
+                      .IsRequired(false);
             });
 
             builder.Entity<Contactos>(entity =>

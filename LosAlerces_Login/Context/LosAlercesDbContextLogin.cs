@@ -18,18 +18,18 @@ namespace LosAlerces_Login.Context
             base.OnModelCreating(builder);
 
             // Configuración de las tablas de Identity
-            builder.Entity<IdentityUser>(entity => { entity.ToTable(name: "Usuarios"); });
+            builder.Entity<ApplicationUser>(entity => {
+
+                entity.ToTable(name: "Usuarios");
+                entity.HasIndex(u => u.Rut).IsUnique();
+
+            });
             builder.Entity<IdentityRole>(entity => { entity.ToTable(name: "Roles"); });
             builder.Entity<IdentityUserRole<string>>(entity => { entity.ToTable("UserRoles"); });
             builder.Entity<IdentityUserClaim<string>>(entity => { entity.ToTable("UserClaims"); });
             builder.Entity<IdentityUserLogin<string>>(entity => { entity.ToTable("UserLogins"); });
             builder.Entity<IdentityRoleClaim<string>>(entity => { entity.ToTable("RoleClaims"); });
             builder.Entity<IdentityUserToken<string>>(entity => { entity.ToTable("UserTokens"); });
-
-            builder.Entity<ApplicationUser>(entity =>
-            {
-                entity.HasIndex(u => u.Rut).IsUnique();
-            });
 
             // Configuración de la relación entre Cliente y Contactos
             builder.Entity<Cliente>(entity =>

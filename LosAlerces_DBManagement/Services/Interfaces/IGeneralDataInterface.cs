@@ -9,7 +9,11 @@ namespace LosAlerces_DBManagement.Services.Interfaces
         Task CreateClienteAsync(Cliente cliente);
         Task UpdateClienteAsync(Cliente cliente);
         Task DeleteClienteAsync(int clienteId);
-        Task<IEnumerable<Contactos>> GetContactosListAsync();
+        Task<IEnumerable<Contactos>> GetAllContactosAsync();
+        Task<Contactos> GetContactoByIdAsync(int id);
+        Task AddContactoAsync(Contactos contacto);
+        Task UpdateContactoAsync(Contactos contacto);
+        Task DeleteContactoAsync(int id);
         Task<IEnumerable<Cotizacion>> GetCotizacionListAsync();
         Task<IEnumerable<Personal>> GetPersonalListAsync();
         Task<Personal> GetPersonalByIdAsync(int id);

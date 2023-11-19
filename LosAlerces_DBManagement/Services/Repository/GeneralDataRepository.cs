@@ -46,9 +46,36 @@ namespace LosAlerces_DBManagement.Services.Repository
             }
         }
 
-        public async Task<IEnumerable<Contactos>> GetContactosListAsync()
+        public async Task<IEnumerable<Contactos>> GetAllContactosAsync()
         {
             return await _context.Contactos.ToListAsync();
+        }
+
+        public async Task<Contactos> GetContactoByIdAsync(int id)
+        {
+            return await _context.Contactos.FindAsync(id);
+        }
+
+        public async Task AddContactoAsync(Contactos contacto)
+        {
+            await _context.Contactos.AddAsync(contacto);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateContactoAsync(Contactos contacto)
+        {
+            _context.Contactos.Update(contacto);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteContactoAsync(int id)
+        {
+            var contacto = await _context.Contactos.FindAsync(id);
+            if (contacto != null)
+            {
+                _context.Contactos.Remove(contacto);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<IEnumerable<Cotizacion>> GetCotizacionListAsync()

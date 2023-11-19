@@ -7,6 +7,6 @@
         public string address { get; set; }
         public string phone { get; set; }
         public string email { get; set; }
-        public virtual ICollection<Contactos> Contactos { get; set; }
+        public virtual Contactos Contacto { get; set; }
     }
 }

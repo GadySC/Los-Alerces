@@ -31,7 +31,10 @@ namespace LosAlerces_DBManagement.Context
                 entity.Property(e => e.address).IsRequired().HasMaxLength(255);
                 entity.Property(e => e.phone).IsRequired().HasMaxLength(255);
                 entity.Property(e => e.email).IsRequired().HasMaxLength(255);
-                entity.HasMany(c => c.Contactos).WithOne(e => e.Cliente).HasForeignKey(e => e.ID_Cliente);
+
+                entity.HasOne(c => c.Contacto)
+                      .WithOne(co => co.Cliente)
+                      .HasForeignKey<Contactos>(co => co.ID_Cliente);
             });
 
             builder.Entity<Contactos>(entity =>

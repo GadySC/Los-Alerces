@@ -78,9 +78,42 @@ namespace LosAlerces_DBManagement.Services.Repository
             }
         }
 
-        public async Task<IEnumerable<Cotizacion>> GetCotizacionListAsync()
+        public async Task<IEnumerable<Cotizacion>> GetAllCotizacionesAsync()
         {
-            return await _context.Cotizaciones.ToListAsync();
+            return await _context.Cotizaciones
+                .Include(c => c.ProductosCotizacion)
+                .Include(c => c.PersonalCotizacion)
+                .ToListAsync();
+        }
+
+        public async Task<Cotizacion> GetCotizacionByIdAsync(int id)
+        {
+            return await _context.Cotizaciones
+                .Include(c => c.ProductosCotizacion)
+                .Include(c => c.PersonalCotizacion)
+                .FirstOrDefaultAsync(c => c.ID_Cotizacion == id);
+        }
+
+        public async Task AddCotizacionAsync(Cotizacion cotizacion)
+        {
+            await _context.Cotizaciones.AddAsync(cotizacion);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateCotizacionAsync(Cotizacion cotizacion)
+        {
+            _context.Cotizaciones.Update(cotizacion);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteCotizacionAsync(int id)
+        {
+            var cotizacion = await _context.Cotizaciones.FindAsync(id);
+            if (cotizacion != null)
+            {
+                _context.Cotizaciones.Remove(cotizacion);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task<IEnumerable<Personal>> GetPersonalListAsync()

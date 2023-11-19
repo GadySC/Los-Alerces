@@ -4,7 +4,8 @@
     {
         public int ID_Cotizacion { get; set; }
         public int ID_Cliente { get; set; }
-        public DateTime QuotationDate { get; set; }
+        public string name { get; set; }
+        public DateTime quotationDate { get; set; }
         public string quantityofproduct { get; set; }
         public virtual Cliente Cliente { get; set; }
         public virtual ICollection<ProductoCotizacion> ProductosCotizacion { get; set; }

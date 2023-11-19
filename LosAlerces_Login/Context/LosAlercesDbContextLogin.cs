@@ -82,7 +82,8 @@ namespace LosAlerces_Login.Context
             {
                 entity.HasKey(e => e.ID_Cotizacion);
                 entity.HasOne(c => c.Cliente).WithMany().HasForeignKey(c => c.ID_Cliente);
-                entity.Property(e => e.QuotationDate).IsRequired().HasColumnType("DATE");
+                entity.Property(e => e.quotationDate).IsRequired().HasColumnType("DATE");
+                entity.Property(e => e.name).IsRequired();
                 entity.Property(e => e.quantityofproduct).IsRequired();
                 entity.HasMany(c => c.ProductosCotizacion)
                       .WithOne(p => p.Cotizacion)

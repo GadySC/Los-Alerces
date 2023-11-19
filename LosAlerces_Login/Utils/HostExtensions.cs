@@ -24,12 +24,15 @@ namespace LosAlerces_Login.Utils
             var basicUserRoleName = "UsuarioBasico";
             var roleExist = await roleManager.RoleExistsAsync(adminRoleName);
             var basicRoleExist = await roleManager.RoleExistsAsync(basicUserRoleName);
+
             if (!roleExist)
             {
                 // Crear el rol de Administrador y sembrarlo en la base de datos
                 await roleManager.CreateAsync(new IdentityRole(adminRoleName));
                 
-            } else if (!basicRoleExist)
+            }
+            
+            if (!basicRoleExist)
             {
                 await roleManager.CreateAsync(new IdentityRole(basicUserRoleName));
             }

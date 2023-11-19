@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace LosAlerces_Login.Data.Migrations
+namespace LosAlerces_Login.Migrations
 {
     [DbContext(typeof(LosAlercesDbContextLogin))]
-    partial class LosAlercesDbContextModelSnapshot : ModelSnapshot
+    partial class LosAlercesDbContextLoginModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

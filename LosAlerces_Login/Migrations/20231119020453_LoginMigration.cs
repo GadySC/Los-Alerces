@@ -3,37 +3,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace LosAlerces_Login.Data.Migrations
+namespace LosAlerces_Login.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class LoginMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Categorias",
-                columns: table => new
-                {
-                    ID_Categoria = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre_Categoria = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Categorias", x => x.ID_Categoria);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Clientes",
+                name: "Cliente",
                 columns: table => new
                 {
                     ID_Cliente = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre_Empresa = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Direccion = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
+                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    phone = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Clientes", x => x.ID_Cliente);
+                    table.PrimaryKey("PK_Cliente", x => x.ID_Cliente);
                 });
 
             migrationBuilder.CreateTable(
@@ -42,12 +31,13 @@ namespace LosAlerces_Login.Data.Migrations
                 {
                     ID_Personal = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Apellido = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Cargo = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Salario = table.Column<decimal>(type: "DECIMAL(10,2)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Direccion = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
+                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    lastname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    profession = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    salary = table.Column<decimal>(type: "DECIMAL(10,2)", nullable: false),
+                    email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    phone = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -60,10 +50,9 @@ namespace LosAlerces_Login.Data.Migrations
                 {
                     ID_Productos = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre_Producto = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Descripcion = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Precio = table.Column<decimal>(type: "DECIMAL(10,2)", nullable: false),
-                    Stock = table.Column<int>(type: "int", nullable: false)
+                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    note = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    price = table.Column<decimal>(type: "DECIMAL(10,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -89,6 +78,9 @@ namespace LosAlerces_Login.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Apellido = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Rut = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -116,56 +108,40 @@ namespace LosAlerces_Login.Data.Migrations
                     ID_Contactos = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ID_Cliente = table.Column<int>(type: "int", nullable: false),
-                    Nombre = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Apellido = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Telefono = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
+                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    lastname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Contactos", x => x.ID_Contactos);
                     table.ForeignKey(
-                        name: "FK_Contactos_Clientes_ID_Cliente",
+                        name: "FK_Contactos_Cliente_ID_Cliente",
                         column: x => x.ID_Cliente,
-                        principalTable: "Clientes",
+                        principalTable: "Cliente",
                         principalColumn: "ID_Cliente",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cotizaciones",
+                name: "Cotizacion",
                 columns: table => new
                 {
                     ID_Cotizacion = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ID_Cliente = table.Column<int>(type: "int", nullable: false),
-                    ID_Producto = table.Column<int>(type: "int", nullable: false),
-                    ID_Personal = table.Column<int>(type: "int", nullable: false),
-                    Fecha_cotizacion = table.Column<DateTime>(type: "DATE", nullable: false),
-                    Cantidad = table.Column<int>(type: "int", nullable: false),
-                    Precio_Unitario = table.Column<decimal>(type: "DECIMAL(10,2)", nullable: false),
-                    Total = table.Column<decimal>(type: "DECIMAL(10,2)", nullable: false)
+                    QuotationDate = table.Column<DateTime>(type: "DATE", nullable: false),
+                    quantityofproduct = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cotizaciones", x => x.ID_Cotizacion);
+                    table.PrimaryKey("PK_Cotizacion", x => x.ID_Cotizacion);
                     table.ForeignKey(
-                        name: "FK_Cotizaciones_Clientes_ID_Cliente",
+                        name: "FK_Cotizacion_Cliente_ID_Cliente",
                         column: x => x.ID_Cliente,
-                        principalTable: "Clientes",
+                        principalTable: "Cliente",
                         principalColumn: "ID_Cliente",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Cotizaciones_Personal_ID_Personal",
-                        column: x => x.ID_Personal,
-                        principalTable: "Personal",
-                        principalColumn: "ID_Personal",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Cotizaciones_Productos_ID_Producto",
-                        column: x => x.ID_Producto,
-                        principalTable: "Productos",
-                        principalColumn: "ID_Productos",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -275,25 +251,75 @@ namespace LosAlerces_Login.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "PersonalCotizacion",
+                columns: table => new
+                {
+                    ID_Cotizacion = table.Column<int>(type: "int", nullable: false),
+                    ID_Personal = table.Column<int>(type: "int", nullable: false),
+                    PersonalID_Personal = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PersonalCotizacion", x => new { x.ID_Cotizacion, x.ID_Personal });
+                    table.ForeignKey(
+                        name: "FK_PersonalCotizacion_Cotizacion_ID_Cotizacion",
+                        column: x => x.ID_Cotizacion,
+                        principalTable: "Cotizacion",
+                        principalColumn: "ID_Cotizacion",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PersonalCotizacion_Personal_PersonalID_Personal",
+                        column: x => x.PersonalID_Personal,
+                        principalTable: "Personal",
+                        principalColumn: "ID_Personal",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ProductoCotizacion",
+                columns: table => new
+                {
+                    ID_Cotizacion = table.Column<int>(type: "int", nullable: false),
+                    ID_Producto = table.Column<int>(type: "int", nullable: false),
+                    ProductoID_Productos = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductoCotizacion", x => new { x.ID_Cotizacion, x.ID_Producto });
+                    table.ForeignKey(
+                        name: "FK_ProductoCotizacion_Cotizacion_ID_Cotizacion",
+                        column: x => x.ID_Cotizacion,
+                        principalTable: "Cotizacion",
+                        principalColumn: "ID_Cotizacion",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ProductoCotizacion_Productos_ProductoID_Productos",
+                        column: x => x.ProductoID_Productos,
+                        principalTable: "Productos",
+                        principalColumn: "ID_Productos",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Contactos_ID_Cliente",
                 table: "Contactos",
                 column: "ID_Cliente");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cotizaciones_ID_Cliente",
-                table: "Cotizaciones",
+                name: "IX_Cotizacion_ID_Cliente",
+                table: "Cotizacion",
                 column: "ID_Cliente");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cotizaciones_ID_Personal",
-                table: "Cotizaciones",
-                column: "ID_Personal");
+                name: "IX_PersonalCotizacion_PersonalID_Personal",
+                table: "PersonalCotizacion",
+                column: "PersonalID_Personal");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cotizaciones_ID_Producto",
-                table: "Cotizaciones",
-                column: "ID_Producto");
+                name: "IX_ProductoCotizacion_ProductoID_Productos",
+                table: "ProductoCotizacion",
+                column: "ProductoID_Productos");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaims_RoleId",
@@ -328,6 +354,12 @@ namespace LosAlerces_Login.Data.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Usuarios_Rut",
+                table: "Usuarios",
+                column: "Rut",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "Usuarios",
                 column: "NormalizedUserName",
@@ -338,13 +370,13 @@ namespace LosAlerces_Login.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Categorias");
-
-            migrationBuilder.DropTable(
                 name: "Contactos");
 
             migrationBuilder.DropTable(
-                name: "Cotizaciones");
+                name: "PersonalCotizacion");
+
+            migrationBuilder.DropTable(
+                name: "ProductoCotizacion");
 
             migrationBuilder.DropTable(
                 name: "RoleClaims");
@@ -362,10 +394,10 @@ namespace LosAlerces_Login.Data.Migrations
                 name: "UserTokens");
 
             migrationBuilder.DropTable(
-                name: "Clientes");
+                name: "Personal");
 
             migrationBuilder.DropTable(
-                name: "Personal");
+                name: "Cotizacion");
 
             migrationBuilder.DropTable(
                 name: "Productos");
@@ -375,6 +407,9 @@ namespace LosAlerces_Login.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Usuarios");
+
+            migrationBuilder.DropTable(
+                name: "Cliente");
         }
     }
 }

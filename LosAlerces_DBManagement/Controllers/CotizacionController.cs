@@ -58,7 +58,7 @@ namespace LosAlerces_DBManagement.Controllers
                 {
                     ID_Cliente = cotizacionDto.ID_Cliente,
                     name = cotizacionDto.name,
-                    quotationDate = cotizacionDto.quotationDate,
+                    quotationDate = DateTime.Now,
                     quantityofproduct = cotizacionDto.quantityofproduct
                     // Aquí debes manejar la asociación con Productos y Personal
                 };
@@ -85,7 +85,7 @@ namespace LosAlerces_DBManagement.Controllers
 
                 cotizacionToUpdate.ID_Cliente = cotizacionDto.ID_Cliente;
                 cotizacionToUpdate.name = cotizacionDto.name;
-                cotizacionToUpdate.quotationDate = cotizacionDto.quotationDate;
+                cotizacionToUpdate.quotationDate = cotizacionToUpdate.quotationDate;
                 cotizacionToUpdate.quantityofproduct = cotizacionDto.quantityofproduct;
                 // Manejar actualización de Productos y Personal
 

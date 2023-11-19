@@ -1,5 +1,6 @@
 ﻿using LosAlerces_DBManagement.Context;
 using LosAlerces_DBManagement.Entities;
+using LosAlerces_DBManagement.Models.Dto;
 using LosAlerces_DBManagement.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -94,16 +95,87 @@ namespace LosAlerces_DBManagement.Services.Repository
                 .FirstOrDefaultAsync(c => c.ID_Cotizacion == id);
         }
 
-        public async Task AddCotizacionAsync(Cotizacion cotizacion)
+        public async Task AddCotizacionAsync(CotizacionDto cotizacionDto)
         {
-            await _context.Cotizaciones.AddAsync(cotizacion);
+            var newCotizacion = new Cotizacion
+            {
+                ID_Cliente = cotizacionDto.ID_Cliente,
+                name = cotizacionDto.name,
+                quotationDate = DateTime.Now,
+                quantityofproduct = cotizacionDto.quantityofproduct,
+                ProductosCotizacion = new List<ProductoCotizacion>(),
+                PersonalCotizacion = new List<PersonalCotizacion>()
+            };
+
+            foreach (var productoId in cotizacionDto.ProductosIds)
+            {
+                newCotizacion.ProductosCotizacion.Add(new ProductoCotizacion { ID_Producto = productoId });
+            }
+
+            foreach (var personalId in cotizacionDto.PersonalIds)
+            {
+                newCotizacion.PersonalCotizacion.Add(new PersonalCotizacion { ID_Personal = personalId });
+            }
+
+            _context.Cotizaciones.Add(newCotizacion);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateCotizacionAsync(Cotizacion cotizacion)
+        public async Task UpdateCotizacionAsync(int id, CotizacionDto cotizacionDto)
         {
-            _context.Cotizaciones.Update(cotizacion);
-            await _context.SaveChangesAsync();
+            var cotizacionToUpdate = await _context.Cotizaciones
+        .Include(c => c.ProductosCotizacion)
+        .Include(c => c.PersonalCotizacion)
+        .FirstOrDefaultAsync(c => c.ID_Cotizacion == id);
+
+            if (cotizacionToUpdate != null)
+            {
+                cotizacionToUpdate.ID_Cliente = cotizacionDto.ID_Cliente;
+                cotizacionToUpdate.name = cotizacionDto.name;
+                cotizacionToUpdate.quotationDate = cotizacionToUpdate.quotationDate;
+                cotizacionToUpdate.quantityofproduct = cotizacionDto.quantityofproduct;
+
+                // Actualizar asociaciones de productos
+                var currentProductIds = cotizacionToUpdate.ProductosCotizacion.Select(p => p.ID_Producto).ToList();
+                var productIdsToAdd = cotizacionDto.ProductosIds.Except(currentProductIds);
+                var productIdsToRemove = currentProductIds.Except(cotizacionDto.ProductosIds);
+
+                foreach (var productId in productIdsToAdd)
+                {
+                    cotizacionToUpdate.ProductosCotizacion.Add(new ProductoCotizacion { ID_Producto = productId });
+                }
+
+                foreach (var productId in productIdsToRemove)
+                {
+                    var productToRemove = cotizacionToUpdate.ProductosCotizacion.FirstOrDefault(p => p.ID_Producto == productId);
+                    if (productToRemove != null)
+                    {
+                        cotizacionToUpdate.ProductosCotizacion.Remove(productToRemove);
+                    }
+                }
+
+                // Actualizar asociaciones de personal
+                var currentPersonalIds = cotizacionToUpdate.PersonalCotizacion.Select(p => p.ID_Personal).ToList();
+                var personalIdsToAdd = cotizacionDto.PersonalIds.Except(currentPersonalIds);
+                var personalIdsToRemove = currentPersonalIds.Except(cotizacionDto.PersonalIds);
+
+                foreach (var personalId in personalIdsToAdd)
+                {
+                    cotizacionToUpdate.PersonalCotizacion.Add(new PersonalCotizacion { ID_Personal = personalId });
+                }
+
+                foreach (var personalId in personalIdsToRemove)
+                {
+                    var personalToRemove = cotizacionToUpdate.PersonalCotizacion.FirstOrDefault(p => p.ID_Personal == personalId);
+                    if (personalToRemove != null)
+                    {
+                        cotizacionToUpdate.PersonalCotizacion.Remove(personalToRemove);
+                    }
+                }
+
+                _context.Cotizaciones.Update(cotizacionToUpdate);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task DeleteCotizacionAsync(int id)

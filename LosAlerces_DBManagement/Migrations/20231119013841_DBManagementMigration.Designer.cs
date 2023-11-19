@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LosAlerces_DBManagement.Migrations
 {
     [DbContext(typeof(LosAlercesDbContext))]
-    [Migration("20231119005132_18112023IMPORTANTDBUPDATE")]
-    partial class _18112023IMPORTANTDBUPDATE
+    [Migration("20231119013841_DBManagementMigration")]
+    partial class DBManagementMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

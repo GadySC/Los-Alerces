@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LosAlerces_Login.Data.Migrations
 {
-    [DbContext(typeof(LosAlercesDbContext))]
+    [DbContext(typeof(LosAlercesDbContextLogin))]
     [Migration("20231112032716_ApplicationUserIntegration")]
     partial class ApplicationUserIntegration
     {

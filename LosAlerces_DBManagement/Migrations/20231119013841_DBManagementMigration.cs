@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LosAlerces_DBManagement.Migrations
 {
-    public partial class _18112023IMPORTANTDBUPDATE : Migration
+    public partial class DBManagementMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

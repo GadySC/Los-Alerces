@@ -31,11 +31,11 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddDbContext<LosAlercesDbContext>(options =>
+builder.Services.AddDbContext<LosAlercesDbContextLogin>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<LosAlercesDbContext>()
+    .AddEntityFrameworkStores<LosAlercesDbContextLogin>()
     .AddDefaultTokenProviders();
 
 /* --------------------- Inyección de dependencias --------------------- */

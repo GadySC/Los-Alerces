@@ -8,6 +8,14 @@ namespace LosAlerces_DBManagement.Services.Interfaces
         Task<IEnumerable<Contactos>> GetContactosListAsync();
         Task<IEnumerable<Cotizacion>> GetCotizacionListAsync();
         Task<IEnumerable<Personal>> GetPersonalListAsync();
+        Task<Personal> GetPersonalByIdAsync(int id);
+        Task AddPersonalAsync(Personal personal);
+        Task UpdatePersonalAsync(Personal personal);
+        Task DeletePersonalAsync(int id);
         Task<IEnumerable<Productos>> GetProductosListAsync();
+        Task AddProductoAsync(Productos producto);
+        Task UpdateProductoAsync(Productos producto);
+        Task DeleteProductoAsync(int id);
+        Task<Productos> GetProductoByIdAsync(int id);
     }
 }

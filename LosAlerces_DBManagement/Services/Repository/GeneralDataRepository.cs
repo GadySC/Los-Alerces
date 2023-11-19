@@ -34,9 +34,63 @@ namespace LosAlerces_DBManagement.Services.Repository
             return await _context.Personal.ToListAsync();
         }
 
+        public async Task<Personal> GetPersonalByIdAsync(int id)
+        {
+            return await _context.Personal.FindAsync(id);
+        }
+
+        public async Task AddPersonalAsync(Personal personal)
+        {
+            await _context.Personal.AddAsync(personal);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdatePersonalAsync(Personal personal)
+        {
+            _context.Personal.Update(personal);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeletePersonalAsync(int id)
+        {
+            var personalToDelete = await _context.Personal.FindAsync(id);
+            if (personalToDelete != null)
+            {
+                _context.Personal.Remove(personalToDelete);
+                await _context.SaveChangesAsync();
+            }
+        }
+
         public async Task<IEnumerable<Productos>> GetProductosListAsync()
         {
             return await _context.Productos.ToListAsync();
+        }
+
+        public async Task AddProductoAsync(Productos producto)
+        {
+            _context.Productos.Add(producto);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdateProductoAsync(Productos producto)
+        {
+            _context.Productos.Update(producto);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task DeleteProductoAsync(int id)
+        {
+            var producto = await _context.Productos.FindAsync(id);
+            if (producto != null)
+            {
+                _context.Productos.Remove(producto);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<Productos> GetProductoByIdAsync(int id)
+        {
+            return await _context.Productos.FindAsync(id);
         }
     }
 }

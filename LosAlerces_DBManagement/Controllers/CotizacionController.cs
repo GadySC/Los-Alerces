@@ -54,17 +54,8 @@ namespace LosAlerces_DBManagement.Controllers
         {
             try
             {
-                var newCotizacion = new Cotizacion
-                {
-                    ID_Cliente = cotizacionDto.ID_Cliente,
-                    name = cotizacionDto.name,
-                    quotationDate = DateTime.Now,
-                    quantityofproduct = cotizacionDto.quantityofproduct
-                    // Aquí debes manejar la asociación con Productos y Personal
-                };
-
-                await _generalDataInterface.AddCotizacionAsync(newCotizacion);
-                return CreatedAtAction(nameof(GetCotizacionById), new { id = newCotizacion.ID_Cotizacion }, newCotizacion);
+                var createdCotizacion = await _generalDataInterface.AddCotizacionAsync(cotizacionDto);
+                return CreatedAtAction(nameof(GetCotizacionById), new { id = createdCotizacion.ID_Cotizacion }, createdCotizacion);
             }
             catch (Exception ex)
             {
@@ -73,23 +64,11 @@ namespace LosAlerces_DBManagement.Controllers
         }
 
         [HttpPut("update/{id}")]
-        public async Task<ActionResult> UpdateCotizacion(int id, [FromBody] CotizacionDto cotizacionDto)
+        public async Task<IActionResult> UpdateCotizacion(int id, [FromBody] CotizacionDto cotizacionDto)
         {
             try
             {
-                var cotizacionToUpdate = await _generalDataInterface.GetCotizacionByIdAsync(id);
-                if (cotizacionToUpdate == null)
-                {
-                    return NotFound();
-                }
-
-                cotizacionToUpdate.ID_Cliente = cotizacionDto.ID_Cliente;
-                cotizacionToUpdate.name = cotizacionDto.name;
-                cotizacionToUpdate.quotationDate = cotizacionToUpdate.quotationDate;
-                cotizacionToUpdate.quantityofproduct = cotizacionDto.quantityofproduct;
-                // Manejar actualización de Productos y Personal
-
-                await _generalDataInterface.UpdateCotizacionAsync(cotizacionToUpdate);
+                await _generalDataInterface.UpdateCotizacionAsync(id, cotizacionDto);
                 return NoContent();
             }
             catch (Exception ex)

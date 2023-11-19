@@ -95,7 +95,7 @@ namespace LosAlerces_DBManagement.Services.Repository
                 .FirstOrDefaultAsync(c => c.ID_Cotizacion == id);
         }
 
-        public async Task AddCotizacionAsync(CotizacionDto cotizacionDto)
+        public async Task<Cotizacion> AddCotizacionAsync(CotizacionDto cotizacionDto)
         {
             var newCotizacion = new Cotizacion
             {
@@ -103,22 +103,14 @@ namespace LosAlerces_DBManagement.Services.Repository
                 name = cotizacionDto.name,
                 quotationDate = DateTime.Now,
                 quantityofproduct = cotizacionDto.quantityofproduct,
-                ProductosCotizacion = new List<ProductoCotizacion>(),
-                PersonalCotizacion = new List<PersonalCotizacion>()
+                ProductosCotizacion = cotizacionDto.ProductosIds.Select(pid => new ProductoCotizacion { ID_Producto = pid }).ToList(),
+                PersonalCotizacion = cotizacionDto.PersonalIds.Select(pid => new PersonalCotizacion { ID_Personal = pid }).ToList()
             };
-
-            foreach (var productoId in cotizacionDto.ProductosIds)
-            {
-                newCotizacion.ProductosCotizacion.Add(new ProductoCotizacion { ID_Producto = productoId });
-            }
-
-            foreach (var personalId in cotizacionDto.PersonalIds)
-            {
-                newCotizacion.PersonalCotizacion.Add(new PersonalCotizacion { ID_Personal = personalId });
-            }
 
             _context.Cotizaciones.Add(newCotizacion);
             await _context.SaveChangesAsync();
+
+            return newCotizacion;
         }
 
         public async Task UpdateCotizacionAsync(int id, CotizacionDto cotizacionDto)

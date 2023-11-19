@@ -11,12 +11,12 @@ namespace LosAlerces_DBManagement.Context
         }
 
         // DbSets para tus entidades
-        public DbSet<Cliente> Clientes { get; set; }
+        public DbSet<Cliente> Cliente { get; set; }
         public DbSet<Contactos> Contactos { get; set; }
         public DbSet<Productos> Productos { get; set; }
         public DbSet<Personal> Personal { get; set; }
-        public DbSet<Cotizacion> Cotizaciones { get; set; }
-        public DbSet<ProductoCotizacion> ProductosCotizacion { get; set; }
+        public DbSet<Cotizacion> Cotizacion { get; set; }
+        public DbSet<ProductoCotizacion> ProductoCotizacion { get; set; }
         public DbSet<PersonalCotizacion> PersonalCotizacion { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)

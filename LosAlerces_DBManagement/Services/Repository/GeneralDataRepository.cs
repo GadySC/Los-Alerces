@@ -17,17 +17,17 @@ namespace LosAlerces_DBManagement.Services.Repository
 
         public async Task<IEnumerable<Cliente>> GetAllClientesAsync()
         {
-            return await _context.Clientes.ToListAsync();
+            return await _context.Cliente.ToListAsync();
         }
 
         public async Task<Cliente> GetClienteByIdAsync(int clienteId)
         {
-            return await _context.Clientes.FindAsync(clienteId);
+            return await _context.Cliente.FindAsync(clienteId);
         }
 
         public async Task CreateClienteAsync(Cliente cliente)
         {
-            await _context.Clientes.AddAsync(cliente);
+            await _context.Cliente.AddAsync(cliente);
             await _context.SaveChangesAsync();
         }
 
@@ -42,7 +42,7 @@ namespace LosAlerces_DBManagement.Services.Repository
             var cliente = await GetClienteByIdAsync(clienteId);
             if (cliente != null)
             {
-                _context.Clientes.Remove(cliente);
+                _context.Cliente.Remove(cliente);
                 await _context.SaveChangesAsync();
             }
         }
@@ -81,7 +81,7 @@ namespace LosAlerces_DBManagement.Services.Repository
 
         public async Task<IEnumerable<Cotizacion>> GetAllCotizacionesAsync()
         {
-            return await _context.Cotizaciones
+            return await _context.Cotizacion
                 .Include(c => c.ProductosCotizacion)
                 .Include(c => c.PersonalCotizacion)
                 .ToListAsync();
@@ -89,7 +89,7 @@ namespace LosAlerces_DBManagement.Services.Repository
 
         public async Task<Cotizacion> GetCotizacionByIdAsync(int id)
         {
-            return await _context.Cotizaciones
+            return await _context.Cotizacion
                 .Include(c => c.ProductosCotizacion)
                 .Include(c => c.PersonalCotizacion)
                 .FirstOrDefaultAsync(c => c.ID_Cotizacion == id);
@@ -107,7 +107,7 @@ namespace LosAlerces_DBManagement.Services.Repository
                 PersonalCotizacion = cotizacionDto.PersonalIds.Select(pid => new PersonalCotizacion { ID_Personal = pid }).ToList()
             };
 
-            _context.Cotizaciones.Add(newCotizacion);
+            _context.Cotizacion.Add(newCotizacion);
             await _context.SaveChangesAsync();
 
             return newCotizacion;
@@ -115,7 +115,7 @@ namespace LosAlerces_DBManagement.Services.Repository
 
         public async Task UpdateCotizacionAsync(int id, CotizacionDto cotizacionDto)
         {
-            var cotizacionToUpdate = await _context.Cotizaciones
+            var cotizacionToUpdate = await _context.Cotizacion
         .Include(c => c.ProductosCotizacion)
         .Include(c => c.PersonalCotizacion)
         .FirstOrDefaultAsync(c => c.ID_Cotizacion == id);
@@ -165,17 +165,17 @@ namespace LosAlerces_DBManagement.Services.Repository
                     }
                 }
 
-                _context.Cotizaciones.Update(cotizacionToUpdate);
+                _context.Cotizacion.Update(cotizacionToUpdate);
                 await _context.SaveChangesAsync();
             }
         }
 
         public async Task DeleteCotizacionAsync(int id)
         {
-            var cotizacion = await _context.Cotizaciones.FindAsync(id);
+            var cotizacion = await _context.Cotizacion.FindAsync(id);
             if (cotizacion != null)
             {
-                _context.Cotizaciones.Remove(cotizacion);
+                _context.Cotizacion.Remove(cotizacion);
                 await _context.SaveChangesAsync();
             }
         }

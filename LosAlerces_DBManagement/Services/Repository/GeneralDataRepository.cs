@@ -138,6 +138,7 @@ namespace LosAlerces_DBManagement.Services.Repository
 
             var cotizacionesDto = cotizaciones.Select(c => new CotizacionDto
             {
+                ID_Cotizacion = c.ID_Cotizacion,
                 ID_Cliente = c.ID_Cliente,
                 name = c.name,
                 quantityofproduct = c.quantityofproduct,
@@ -162,6 +163,7 @@ namespace LosAlerces_DBManagement.Services.Repository
 
             var cotizacionDto = new CotizacionDto
             {
+                ID_Cotizacion = cotizacion.ID_Cotizacion,
                 ID_Cliente = cotizacion.ID_Cliente,
                 name = cotizacion.name,
                 quantityofproduct = cotizacion.quantityofproduct,

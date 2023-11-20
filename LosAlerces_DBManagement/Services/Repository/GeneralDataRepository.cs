@@ -15,67 +15,115 @@ namespace LosAlerces_DBManagement.Services.Repository
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<IEnumerable<Cliente>> GetAllClientesAsync()
+        public async Task<IEnumerable<ClienteExposicionDto>> GetAllClientesAsync()
         {
-            return await _context.Cliente.ToListAsync();
+            return await _context.Cliente
+                .Select(c => new ClienteExposicionDto
+                {
+                    name = c.name,
+                    address = c.address,
+                    phone = c.phone,
+                    email = c.email,
+                    contacto = new ContactoDto
+                    {
+                        ContactoName = c.ContactoName,
+                        ContactoLastname = c.ContactoLastname,
+                        ContactoEmail = c.ContactoEmail,
+                        ContactoPhone = c.ContactoPhone
+                    }
+                }).ToListAsync();
         }
 
-        public async Task<Cliente> GetClienteByIdAsync(int clienteId)
+        public async Task<ClienteExposicionDto> GetClienteByIdAsync(int clienteId)
         {
-            return await _context.Cliente.FindAsync(clienteId);
+            var cliente = await _context.Cliente.FirstOrDefaultAsync(c => c.ID_Cliente == clienteId);
+
+            if (cliente == null) return null;
+
+            return new ClienteExposicionDto
+            {
+                name = cliente.name,
+                address = cliente.address,
+                phone = cliente.phone,
+                email = cliente.email,
+                contacto = new ContactoDto
+                {
+                    ContactoName = cliente.ContactoName,
+                    ContactoLastname = cliente.ContactoLastname,
+                    ContactoEmail = cliente.ContactoEmail,
+                    ContactoPhone = cliente.ContactoPhone
+                }
+            };
         }
 
-        public async Task CreateClienteAsync(Cliente cliente)
+        public async Task CreateClienteAsync(ClienteDto clienteDto)
         {
-            await _context.Cliente.AddAsync(cliente);
+            var newCliente = new Cliente
+            {
+                name = clienteDto.name,
+                address = clienteDto.address,
+                phone = clienteDto.phone,
+                email = clienteDto.email,
+                ContactoName = clienteDto.ContactoName,
+                ContactoLastname = clienteDto.ContactoLastname,
+                ContactoEmail = clienteDto.ContactoEmail,
+                ContactoPhone = clienteDto.ContactoPhone
+            };
+
+            await _context.Cliente.AddAsync(newCliente);
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdateClienteAsync(Cliente cliente)
+        public async Task UpdateClienteAsync(int clienteId, ClienteDto clienteDto)
         {
-            _context.Entry(cliente).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
+            var clienteToUpdate = await _context.Cliente.FindAsync(clienteId);
+
+            if (clienteToUpdate != null)
+            {
+                clienteToUpdate.name = clienteDto.name;
+                clienteToUpdate.address = clienteDto.address;
+                clienteToUpdate.phone = clienteDto.phone;
+                clienteToUpdate.email = clienteDto.email;
+                clienteToUpdate.ContactoName = clienteDto.ContactoName;
+                clienteToUpdate.ContactoLastname = clienteDto.ContactoLastname;
+                clienteToUpdate.ContactoEmail = clienteDto.ContactoEmail;
+                clienteToUpdate.ContactoPhone = clienteDto.ContactoPhone;
+
+                _context.Cliente.Update(clienteToUpdate);
+                await _context.SaveChangesAsync();
+            }
+            // Considerar qué hacer si el cliente no se encuentra (opcional)
         }
 
         public async Task DeleteClienteAsync(int clienteId)
         {
-            var cliente = await GetClienteByIdAsync(clienteId);
-            if (cliente != null)
+            var clienteToDelete = await _context.Cliente.FindAsync(clienteId);
+
+            if (clienteToDelete != null)
             {
-                _context.Cliente.Remove(cliente);
+                _context.Cliente.Remove(clienteToDelete);
                 await _context.SaveChangesAsync();
             }
+            // Considerar qué hacer si el cliente no se encuentra (opcional)
         }
 
-        public async Task<IEnumerable<Contactos>> GetAllContactosAsync()
+        public async Task UpdateContactoClienteAsync(int clienteId, ContactoDto contactoDto)
         {
-            return await _context.Contactos.ToListAsync();
-        }
-
-        public async Task<Contactos> GetContactoByIdAsync(int id)
-        {
-            return await _context.Contactos.FindAsync(id);
-        }
-
-        public async Task AddContactoAsync(Contactos contacto)
-        {
-            await _context.Contactos.AddAsync(contacto);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task UpdateContactoAsync(Contactos contacto)
-        {
-            _context.Contactos.Update(contacto);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task DeleteContactoAsync(int id)
-        {
-            var contacto = await _context.Contactos.FindAsync(id);
-            if (contacto != null)
+            var cliente = await _context.Cliente.FindAsync(clienteId);
+            if (cliente != null)
             {
-                _context.Contactos.Remove(contacto);
+                // Actualizar solo las propiedades de contacto
+                cliente.ContactoName = contactoDto.ContactoName;
+                cliente.ContactoLastname = contactoDto.ContactoLastname;
+                cliente.ContactoEmail = contactoDto.ContactoEmail;
+                cliente.ContactoPhone = contactoDto.ContactoPhone;
+
+                _context.Cliente.Update(cliente);
                 await _context.SaveChangesAsync();
+            }
+            else
+            {
+                throw new ArgumentException("Cliente no encontrado");
             }
         }
 

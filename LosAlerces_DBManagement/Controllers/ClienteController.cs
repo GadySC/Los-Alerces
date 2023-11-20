@@ -18,7 +18,7 @@ namespace LosAlerces_DBManagement.Controllers
         }
 
         [HttpGet("all")]
-        public async Task<ActionResult> GetAllClientes()
+        public async Task<ActionResult<IEnumerable<Cliente>>> GetAll()
         {
             try
             {
@@ -31,80 +31,8 @@ namespace LosAlerces_DBManagement.Controllers
             }
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> CreateCliente([FromBody] ClienteDto clienteDto)
-        {
-            if (clienteDto == null)
-            {
-                return BadRequest("Datos del cliente son inválidos.");
-            }
-
-            var cliente = new Cliente
-            {
-                name = clienteDto.name,
-                address = clienteDto.address,
-                phone = clienteDto.phone,
-                email = clienteDto.email
-            };
-
-            try
-            {
-                await _generalDataInterface.CreateClienteAsync(cliente);
-                return CreatedAtAction(nameof(GetClienteById), new { id = cliente.ID_Cliente }, cliente);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-        [HttpPut("update/{id}")]
-        public async Task<IActionResult> UpdateCliente(int id, [FromBody] ClienteDto clienteDto)
-        {
-            try
-            {
-                var clienteToUpdate = await _generalDataInterface.GetClienteByIdAsync(id);
-                if (clienteToUpdate == null)
-                {
-                    return NotFound($"Cliente con ID {id} no encontrado.");
-                }
-
-                clienteToUpdate.name = clienteDto.name;
-                clienteToUpdate.address = clienteDto.address;
-                clienteToUpdate.phone = clienteDto.phone;
-                clienteToUpdate.email = clienteDto.email;
-
-                await _generalDataInterface.UpdateClienteAsync(clienteToUpdate);
-                return Ok(clienteToUpdate);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-        [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> DeleteCliente(int id)
-        {
-            try
-            {
-                var clienteToDelete = await _generalDataInterface.GetClienteByIdAsync(id);
-                if (clienteToDelete == null)
-                {
-                    return NotFound();
-                }
-
-                await _generalDataInterface.DeleteClienteAsync(id);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-        [HttpGet("filtered/by/{id}")]
-        public async Task<IActionResult> GetClienteById(int id)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Cliente>> GetById(int id)
         {
             try
             {
@@ -114,6 +42,63 @@ namespace LosAlerces_DBManagement.Controllers
                     return NotFound();
                 }
                 return Ok(cliente);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost("create")]
+        public async Task<ActionResult<Cliente>> Create([FromBody] ClienteDto clienteDto)
+        {
+            try
+            {
+                await _generalDataInterface.CreateClienteAsync(clienteDto);
+                // Puedes devolver la entidad creada, aunque aquí se devuelve solo un mensaje de éxito
+                return Ok("Cliente creado con éxito");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] ClienteDto clienteDto)
+        {
+            try
+            {
+                await _generalDataInterface.UpdateClienteAsync(id, clienteDto);
+                return Ok("Cliente actualizado con éxito");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                await _generalDataInterface.DeleteClienteAsync(id);
+                return Ok("Cliente eliminado con éxito");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut("update-contacto/by-id-cliente/{id}")]
+        public async Task<IActionResult> UpdateContacto(int id, [FromBody] ContactoDto contactoDto)
+        {
+            try
+            {
+                await _generalDataInterface.UpdateContactoClienteAsync(id, contactoDto);
+                return Ok("Información de contacto actualizada con éxito");
             }
             catch (Exception ex)
             {

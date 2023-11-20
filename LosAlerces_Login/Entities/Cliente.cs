@@ -1,4 +1,6 @@
-﻿namespace LosAlerces_Login.Entities
+﻿using LosAlerces_Login.Entities;
+
+namespace LosAlerces_Login.Entities
 {
     public class Cliente
     {
@@ -7,6 +9,11 @@
         public string address { get; set; }
         public string phone { get; set; }
         public string email { get; set; }
-        public virtual Contactos Contacto { get; set; }
+
+        // Propiedades anteriores de Contacto ahora en Cliente
+        public string ContactoName { get; set; }
+        public string ContactoLastname { get; set; }
+        public string ContactoEmail { get; set; }
+        public string ContactoPhone { get; set; }
     }
 }

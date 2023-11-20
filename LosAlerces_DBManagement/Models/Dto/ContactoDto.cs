@@ -2,10 +2,9 @@
 {
     public class ContactoDto
     {
-        public string name { get; set; }
-        public string lastname { get; set; }
-        public string email { get; set; }
-        public string phone { get; set; }
-        public int ID_Cliente { get; set; }
+        public string ContactoName { get; set; }
+        public string ContactoLastname { get; set; }
+        public string ContactoEmail { get; set; }
+        public string ContactoPhone { get; set; }
     }
 }

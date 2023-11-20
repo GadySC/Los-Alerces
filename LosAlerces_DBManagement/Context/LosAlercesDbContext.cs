@@ -12,7 +12,6 @@ namespace LosAlerces_DBManagement.Context
 
         // DbSets para tus entidades
         public DbSet<Cliente> Cliente { get; set; }
-        public DbSet<Contactos> Contactos { get; set; }
         public DbSet<Productos> Productos { get; set; }
         public DbSet<Personal> Personal { get; set; }
         public DbSet<Cotizacion> Cotizacion { get; set; }
@@ -32,19 +31,11 @@ namespace LosAlerces_DBManagement.Context
                 entity.Property(e => e.phone).IsRequired().HasMaxLength(255);
                 entity.Property(e => e.email).IsRequired().HasMaxLength(255);
 
-                entity.HasOne(c => c.Contacto)
-                      .WithOne(co => co.Cliente)
-                      .HasForeignKey<Contactos>(co => co.ID_Cliente)
-                      .IsRequired(false);
-            });
-
-            builder.Entity<Contactos>(entity =>
-            {
-                entity.HasKey(e => e.ID_Contactos);
-                entity.Property(e => e.name).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.lastname).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.email).IsRequired().HasMaxLength(255);
-                entity.Property(e => e.phone).HasMaxLength(20);
+                // Propiedades del contacto agregadas directamente a Cliente
+                entity.Property(e => e.ContactoName).HasMaxLength(255);
+                entity.Property(e => e.ContactoLastname).HasMaxLength(255);
+                entity.Property(e => e.ContactoEmail).HasMaxLength(255);
+                entity.Property(e => e.ContactoPhone).HasMaxLength(20);
             });
 
             // Configuración de la entidad Productos

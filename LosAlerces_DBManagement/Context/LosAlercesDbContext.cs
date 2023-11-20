@@ -32,10 +32,10 @@ namespace LosAlerces_DBManagement.Context
                 entity.Property(e => e.email).IsRequired().HasMaxLength(255);
 
                 // Propiedades del contacto agregadas directamente a Cliente
-                entity.Property(e => e.ContactoName).HasMaxLength(255);
-                entity.Property(e => e.ContactoLastname).HasMaxLength(255);
-                entity.Property(e => e.ContactoEmail).HasMaxLength(255);
-                entity.Property(e => e.ContactoPhone).HasMaxLength(20);
+                entity.Property(e => e.ContactoName).IsRequired(false).HasMaxLength(255);
+                entity.Property(e => e.ContactoLastname).IsRequired(false).HasMaxLength(255);
+                entity.Property(e => e.ContactoEmail).IsRequired(false).HasMaxLength(255);
+                entity.Property(e => e.ContactoPhone).IsRequired(false).HasMaxLength(20);
             });
 
             // Configuración de la entidad Productos

@@ -42,7 +42,7 @@ namespace LosAlerces_DBManagement.Controllers
             try
             {
                 var nuevoProducto = new Productos
-                {
+                {               
                     name = productoDto.name,
                     note = productoDto.note,
                     price = productoDto.price

@@ -41,10 +41,10 @@ namespace LosAlerces_Login.Context
                 entity.Property(e => e.email).IsRequired().HasMaxLength(255);
 
                 // Propiedades del contacto agregadas directamente a Cliente
-                entity.Property(e => e.ContactoName).HasMaxLength(255);
-                entity.Property(e => e.ContactoLastname).HasMaxLength(255);
-                entity.Property(e => e.ContactoEmail).HasMaxLength(255);
-                entity.Property(e => e.ContactoPhone).HasMaxLength(20);
+                entity.Property(e => e.ContactoName).IsRequired(false).HasMaxLength(255);
+                entity.Property(e => e.ContactoLastname).IsRequired(false).HasMaxLength(255);
+                entity.Property(e => e.ContactoEmail).IsRequired(false).HasMaxLength(255);
+                entity.Property(e => e.ContactoPhone).IsRequired(false).HasMaxLength(20);
             });
 
             // Configuración de la entidad Productos
@@ -88,6 +88,11 @@ namespace LosAlerces_Login.Context
             // Configuraciones para las relaciones de muchos a muchos
             builder.Entity<ProductoCotizacion>()
                 .HasKey(pc => new { pc.ID_Cotizacion, pc.ID_Producto });
+
+            builder.Entity<ProductoCotizacion>()
+                .Property(pc => pc.Cantidad)
+                .IsRequired();
+
 
             builder.Entity<PersonalCotizacion>()
                 .HasKey(pc => new { pc.ID_Cotizacion, pc.ID_Personal });

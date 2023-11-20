@@ -20,6 +20,7 @@ namespace LosAlerces_DBManagement.Services.Repository
             return await _context.Cliente
                 .Select(c => new ClienteExposicionDto
                 {
+                    ID_Cliente = c.ID_Cliente,
                     name = c.name,
                     address = c.address,
                     phone = c.phone,
@@ -42,6 +43,7 @@ namespace LosAlerces_DBManagement.Services.Repository
 
             return new ClienteExposicionDto
             {
+                ID_Cliente = clienteId,
                 name = cliente.name,
                 address = cliente.address,
                 phone = cliente.phone,
@@ -151,9 +153,18 @@ namespace LosAlerces_DBManagement.Services.Repository
                 name = cotizacionDto.name,
                 quotationDate = DateTime.Now,
                 quantityofproduct = cotizacionDto.quantityofproduct,
-                ProductosCotizacion = cotizacionDto.ProductosIds.Select(pid => new ProductoCotizacion { ID_Producto = pid }).ToList(),
+                ProductosCotizacion = new List<ProductoCotizacion>(),
                 PersonalCotizacion = cotizacionDto.PersonalIds.Select(pid => new PersonalCotizacion { ID_Personal = pid }).ToList()
             };
+
+            foreach (var producto in cotizacionDto.ProductosIds)
+            {
+                newCotizacion.ProductosCotizacion.Add(new ProductoCotizacion
+                {
+                    ID_Producto = producto.Key,
+                    Cantidad = producto.Value
+                });
+            }
 
             _context.Cotizacion.Add(newCotizacion);
             await _context.SaveChangesAsync();
@@ -175,41 +186,53 @@ namespace LosAlerces_DBManagement.Services.Repository
                 cotizacionToUpdate.quotationDate = cotizacionToUpdate.quotationDate;
                 cotizacionToUpdate.quantityofproduct = cotizacionDto.quantityofproduct;
 
-                // Actualizar asociaciones de productos
-                var currentProductIds = cotizacionToUpdate.ProductosCotizacion.Select(p => p.ID_Producto).ToList();
-                var productIdsToAdd = cotizacionDto.ProductosIds.Except(currentProductIds);
-                var productIdsToRemove = currentProductIds.Except(cotizacionDto.ProductosIds);
+                // Actualización de Productos
+                var existingProducts = cotizacionToUpdate.ProductosCotizacion.ToList();
 
-                foreach (var productId in productIdsToAdd)
+                foreach (var producto in cotizacionDto.ProductosIds)
                 {
-                    cotizacionToUpdate.ProductosCotizacion.Add(new ProductoCotizacion { ID_Producto = productId });
-                }
+                    var existingProduct = existingProducts.FirstOrDefault(p => p.ID_Producto == producto.Key);
 
-                foreach (var productId in productIdsToRemove)
-                {
-                    var productToRemove = cotizacionToUpdate.ProductosCotizacion.FirstOrDefault(p => p.ID_Producto == productId);
-                    if (productToRemove != null)
+                    if (existingProduct != null)
                     {
-                        cotizacionToUpdate.ProductosCotizacion.Remove(productToRemove);
+                        existingProduct.Cantidad = producto.Value;
+                    }
+                    else
+                    {
+                        cotizacionToUpdate.ProductosCotizacion.Add(new ProductoCotizacion
+                        {
+                            ID_Producto = producto.Key,
+                            Cantidad = producto.Value
+                        });
                     }
                 }
 
-                // Actualizar asociaciones de personal
-                var currentPersonalIds = cotizacionToUpdate.PersonalCotizacion.Select(p => p.ID_Personal).ToList();
-                var personalIdsToAdd = cotizacionDto.PersonalIds.Except(currentPersonalIds);
-                var personalIdsToRemove = currentPersonalIds.Except(cotizacionDto.PersonalIds);
-
-                foreach (var personalId in personalIdsToAdd)
+                // Eliminar productos que ya no están en la cotización
+                foreach (var existingProduct in existingProducts)
                 {
-                    cotizacionToUpdate.PersonalCotizacion.Add(new PersonalCotizacion { ID_Personal = personalId });
+                    if (!cotizacionDto.ProductosIds.ContainsKey(existingProduct.ID_Producto))
+                    {
+                        _context.Remove(existingProduct);
+                    }
                 }
 
-                foreach (var personalId in personalIdsToRemove)
+                // Actualización de Personal
+                var existingPersonal = cotizacionToUpdate.PersonalCotizacion.ToList();
+
+                foreach (var personalId in cotizacionDto.PersonalIds)
                 {
-                    var personalToRemove = cotizacionToUpdate.PersonalCotizacion.FirstOrDefault(p => p.ID_Personal == personalId);
-                    if (personalToRemove != null)
+                    if (!existingPersonal.Any(p => p.ID_Personal == personalId))
                     {
-                        cotizacionToUpdate.PersonalCotizacion.Remove(personalToRemove);
+                        cotizacionToUpdate.PersonalCotizacion.Add(new PersonalCotizacion { ID_Personal = personalId });
+                    }
+                }
+
+                // Eliminar personal que ya no está en la cotización
+                foreach (var personal in existingPersonal)
+                {
+                    if (!cotizacionDto.PersonalIds.Contains(personal.ID_Personal))
+                    {
+                        _context.Remove(personal);
                     }
                 }
 

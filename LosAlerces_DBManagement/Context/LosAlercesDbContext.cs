@@ -80,6 +80,11 @@ namespace LosAlerces_DBManagement.Context
             builder.Entity<ProductoCotizacion>()
                 .HasKey(pc => new { pc.ID_Cotizacion, pc.ID_Producto });
 
+            builder.Entity<ProductoCotizacion>()
+                .Property(pc => pc.Cantidad)
+                .IsRequired();
+
+
             builder.Entity<PersonalCotizacion>()
                 .HasKey(pc => new { pc.ID_Cotizacion, pc.ID_Personal });
 

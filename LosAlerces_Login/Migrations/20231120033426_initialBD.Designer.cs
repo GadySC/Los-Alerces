@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LosAlerces_Login.Migrations
 {
     [DbContext(typeof(LosAlercesDbContextLogin))]
-    [Migration("20231120012325_LoginMigration7")]
-    partial class LoginMigration7
+    [Migration("20231120033426_initialBD")]
+    partial class initialBD
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,22 +33,18 @@ namespace LosAlerces_Login.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_Cliente"), 1L, 1);
 
                     b.Property<string>("ContactoEmail")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("ContactoLastname")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("ContactoName")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("ContactoPhone")
-                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
@@ -176,6 +172,9 @@ namespace LosAlerces_Login.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ID_Producto")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Cantidad")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductoID_Productos")

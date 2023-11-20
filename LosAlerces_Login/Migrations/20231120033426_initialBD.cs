@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace LosAlerces_Login.Migrations
 {
-    public partial class LoginMigration : Migration
+    public partial class initialBD : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,7 +18,11 @@ namespace LosAlerces_Login.Migrations
                     name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     address = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     phone = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false)
+                    email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    ContactoName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    ContactoLastname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    ContactoEmail = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    ContactoPhone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -102,36 +106,14 @@ namespace LosAlerces_Login.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Contactos",
-                columns: table => new
-                {
-                    ID_Contactos = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ID_Cliente = table.Column<int>(type: "int", nullable: false),
-                    name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    lastname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Contactos", x => x.ID_Contactos);
-                    table.ForeignKey(
-                        name: "FK_Contactos_Cliente_ID_Cliente",
-                        column: x => x.ID_Cliente,
-                        principalTable: "Cliente",
-                        principalColumn: "ID_Cliente",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Cotizacion",
                 columns: table => new
                 {
                     ID_Cotizacion = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ID_Cliente = table.Column<int>(type: "int", nullable: false),
-                    QuotationDate = table.Column<DateTime>(type: "DATE", nullable: false),
+                    name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    quotationDate = table.Column<DateTime>(type: "DATE", nullable: false),
                     quantityofproduct = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -282,6 +264,7 @@ namespace LosAlerces_Login.Migrations
                 {
                     ID_Cotizacion = table.Column<int>(type: "int", nullable: false),
                     ID_Producto = table.Column<int>(type: "int", nullable: false),
+                    Cantidad = table.Column<int>(type: "int", nullable: false),
                     ProductoID_Productos = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -300,11 +283,6 @@ namespace LosAlerces_Login.Migrations
                         principalColumn: "ID_Productos",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Contactos_ID_Cliente",
-                table: "Contactos",
-                column: "ID_Cliente");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cotizacion_ID_Cliente",
@@ -369,9 +347,6 @@ namespace LosAlerces_Login.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Contactos");
-
             migrationBuilder.DropTable(
                 name: "PersonalCotizacion");
 

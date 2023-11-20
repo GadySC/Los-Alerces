@@ -13,6 +13,14 @@ namespace LosAlerces_Login.Context
         {
         }
 
+        // DbSets para tus entidades
+        public DbSet<Cliente> Cliente { get; set; }
+        public DbSet<Productos> Productos { get; set; }
+        public DbSet<Personal> Personal { get; set; }
+        public DbSet<Cotizacion> Cotizacion { get; set; }
+        public DbSet<ProductoCotizacion> ProductoCotizacion { get; set; }
+        public DbSet<PersonalCotizacion> PersonalCotizacion { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -31,6 +39,7 @@ namespace LosAlerces_Login.Context
             builder.Entity<IdentityRoleClaim<string>>(entity => { entity.ToTable("RoleClaims"); });
             builder.Entity<IdentityUserToken<string>>(entity => { entity.ToTable("UserTokens"); });
 
+            // Configuración de la relación entre Cliente y Contactos
             // Configuración de la relación entre Cliente y Contactos
             builder.Entity<Cliente>(entity =>
             {

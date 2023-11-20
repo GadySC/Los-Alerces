@@ -4,7 +4,7 @@
 
 namespace LosAlerces_Login.Migrations
 {
-    public partial class LoginMigration6 : Migration
+    public partial class initialBDLOGIN : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

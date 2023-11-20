@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LosAlerces_Login.Migrations
 {
     [DbContext(typeof(LosAlercesDbContextLogin))]
-    [Migration("20231120001509_LoginMigration5")]
-    partial class LoginMigration5
+    [Migration("20231120034353_initialBDLOGIN")]
+    partial class initialBDLOGIN
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -32,6 +32,22 @@ namespace LosAlerces_Login.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_Cliente"), 1L, 1);
 
+                    b.Property<string>("ContactoEmail")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("ContactoLastname")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("ContactoName")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("ContactoPhone")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
                     b.Property<string>("address")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -41,9 +57,6 @@ namespace LosAlerces_Login.Migrations
                         .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
-
-                    b.Property<int?>("idContacto")
-                        .HasColumnType("int");
 
                     b.Property<string>("name")
                         .IsRequired()
@@ -57,47 +70,7 @@ namespace LosAlerces_Login.Migrations
 
                     b.HasKey("ID_Cliente");
 
-                    b.HasIndex("idContacto")
-                        .IsUnique()
-                        .HasFilter("[idContacto] IS NOT NULL");
-
                     b.ToTable("Cliente");
-                });
-
-            modelBuilder.Entity("LosAlerces_Login.Entities.Contactos", b =>
-                {
-                    b.Property<int>("ID_Contactos")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_Contactos"), 1L, 1);
-
-                    b.Property<int>("ID_Cliente")
-                        .HasColumnType("int");
-
-                    b.Property<string>("email")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("lastname")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("phone")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("ID_Contactos");
-
-                    b.ToTable("Contactos");
                 });
 
             modelBuilder.Entity("LosAlerces_Login.Entities.Cotizacion", b =>
@@ -199,6 +172,9 @@ namespace LosAlerces_Login.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ID_Producto")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Cantidad")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductoID_Productos")
@@ -448,15 +424,6 @@ namespace LosAlerces_Login.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("LosAlerces_Login.Entities.Cliente", b =>
-                {
-                    b.HasOne("LosAlerces_Login.Entities.Contactos", "Contacto")
-                        .WithOne()
-                        .HasForeignKey("LosAlerces_Login.Entities.Cliente", "idContacto");
-
-                    b.Navigation("Contacto");
                 });
 
             modelBuilder.Entity("LosAlerces_Login.Entities.Cotizacion", b =>

@@ -129,23 +129,50 @@ namespace LosAlerces_DBManagement.Services.Repository
             }
         }
 
-        public async Task<IEnumerable<Cotizacion>> GetAllCotizacionesAsync()
+        public async Task<IEnumerable<CotizacionDto>> GetAllCotizacionesAsync()
         {
-            return await _context.Cotizacion
+            var cotizaciones = await _context.Cotizacion
                 .Include(c => c.ProductosCotizacion)
                 .Include(c => c.PersonalCotizacion)
                 .ToListAsync();
+
+            var cotizacionesDto = cotizaciones.Select(c => new CotizacionDto
+            {
+                ID_Cliente = c.ID_Cliente,
+                name = c.name,
+                quantityofproduct = c.quantityofproduct,
+                ProductosIds = c.ProductosCotizacion.ToDictionary(p => p.ID_Producto, p => p.Cantidad),
+                PersonalIds = c.PersonalCotizacion.Select(p => p.ID_Personal).ToList()
+            }).ToList();
+
+            return cotizacionesDto;
         }
 
-        public async Task<Cotizacion> GetCotizacionByIdAsync(int id)
+        public async Task<CotizacionDto> GetCotizacionByIdAsync(int id)
         {
-            return await _context.Cotizacion
+            var cotizacion = await _context.Cotizacion
                 .Include(c => c.ProductosCotizacion)
                 .Include(c => c.PersonalCotizacion)
                 .FirstOrDefaultAsync(c => c.ID_Cotizacion == id);
+
+            if (cotizacion == null)
+            {
+                return null;
+            }
+
+            var cotizacionDto = new CotizacionDto
+            {
+                ID_Cliente = cotizacion.ID_Cliente,
+                name = cotizacion.name,
+                quantityofproduct = cotizacion.quantityofproduct,
+                ProductosIds = cotizacion.ProductosCotizacion.ToDictionary(pc => pc.ID_Producto, pc => pc.Cantidad),
+                PersonalIds = cotizacion.PersonalCotizacion.Select(pc => pc.ID_Personal).ToList()
+            };
+
+            return cotizacionDto;
         }
 
-        public async Task<Cotizacion> AddCotizacionAsync(CotizacionDto cotizacionDto)
+        public async Task<CotizacionDto> AddCotizacionAsync(CotizacionDto cotizacionDto)
         {
             var newCotizacion = new Cotizacion
             {
@@ -153,31 +180,37 @@ namespace LosAlerces_DBManagement.Services.Repository
                 name = cotizacionDto.name,
                 quotationDate = DateTime.Now,
                 quantityofproduct = cotizacionDto.quantityofproduct,
-                ProductosCotizacion = new List<ProductoCotizacion>(),
+                ProductosCotizacion = cotizacionDto.ProductosIds.Select(p => new ProductoCotizacion
+                {
+                    ID_Producto = p.Key,
+                    Cantidad = p.Value
+                }).ToList(),
                 PersonalCotizacion = cotizacionDto.PersonalIds.Select(pid => new PersonalCotizacion { ID_Personal = pid }).ToList()
             };
-
-            foreach (var producto in cotizacionDto.ProductosIds)
-            {
-                newCotizacion.ProductosCotizacion.Add(new ProductoCotizacion
-                {
-                    ID_Producto = producto.Key,
-                    Cantidad = producto.Value
-                });
-            }
 
             _context.Cotizacion.Add(newCotizacion);
             await _context.SaveChangesAsync();
 
-            return newCotizacion;
+            // Mapeo de la entidad Cotizacion a CotizacionDto para el resultado
+            var resultDto = new CotizacionDto
+            {
+                ID_Cliente = newCotizacion.ID_Cliente,
+                name = newCotizacion.name,
+                quantityofproduct = newCotizacion.quantityofproduct,
+                ProductosIds = newCotizacion.ProductosCotizacion.ToDictionary(pc => pc.ID_Producto, pc => pc.Cantidad),
+                PersonalIds = newCotizacion.PersonalCotizacion.Select(pc => pc.ID_Personal).ToList()
+            };
+
+            return resultDto;
         }
 
         public async Task UpdateCotizacionAsync(int id, CotizacionDto cotizacionDto)
         {
+
             var cotizacionToUpdate = await _context.Cotizacion
-        .Include(c => c.ProductosCotizacion)
-        .Include(c => c.PersonalCotizacion)
-        .FirstOrDefaultAsync(c => c.ID_Cotizacion == id);
+                .Include(c => c.ProductosCotizacion)
+                .Include(c => c.PersonalCotizacion)
+                .FirstOrDefaultAsync(c => c.ID_Cotizacion == id);
 
             if (cotizacionToUpdate != null)
             {
@@ -187,54 +220,43 @@ namespace LosAlerces_DBManagement.Services.Repository
                 cotizacionToUpdate.quantityofproduct = cotizacionDto.quantityofproduct;
 
                 // Actualización de Productos
-                var existingProducts = cotizacionToUpdate.ProductosCotizacion.ToList();
-
-                foreach (var producto in cotizacionDto.ProductosIds)
+                foreach (var productoDto in cotizacionDto.ProductosIds)
                 {
-                    var existingProduct = existingProducts.FirstOrDefault(p => p.ID_Producto == producto.Key);
+                    var producto = cotizacionToUpdate.ProductosCotizacion
+                        .FirstOrDefault(p => p.ID_Producto == productoDto.Key);
 
-                    if (existingProduct != null)
+                    if (producto != null)
                     {
-                        existingProduct.Cantidad = producto.Value;
+                        producto.Cantidad = productoDto.Value;
                     }
                     else
                     {
                         cotizacionToUpdate.ProductosCotizacion.Add(new ProductoCotizacion
                         {
-                            ID_Producto = producto.Key,
-                            Cantidad = producto.Value
+                            ID_Producto = productoDto.Key,
+                            Cantidad = productoDto.Value
                         });
                     }
                 }
 
-                // Eliminar productos que ya no están en la cotización
-                foreach (var existingProduct in existingProducts)
-                {
-                    if (!cotizacionDto.ProductosIds.ContainsKey(existingProduct.ID_Producto))
-                    {
-                        _context.Remove(existingProduct);
-                    }
-                }
+                // Eliminar productos que ya no están en el DTO
+                cotizacionToUpdate.ProductosCotizacion = cotizacionToUpdate.ProductosCotizacion
+                    .Where(p => cotizacionDto.ProductosIds.ContainsKey(p.ID_Producto))
+                    .ToList();
 
                 // Actualización de Personal
-                var existingPersonal = cotizacionToUpdate.PersonalCotizacion.ToList();
-
                 foreach (var personalId in cotizacionDto.PersonalIds)
                 {
-                    if (!existingPersonal.Any(p => p.ID_Personal == personalId))
+                    if (!cotizacionToUpdate.PersonalCotizacion.Any(p => p.ID_Personal == personalId))
                     {
                         cotizacionToUpdate.PersonalCotizacion.Add(new PersonalCotizacion { ID_Personal = personalId });
                     }
                 }
 
-                // Eliminar personal que ya no está en la cotización
-                foreach (var personal in existingPersonal)
-                {
-                    if (!cotizacionDto.PersonalIds.Contains(personal.ID_Personal))
-                    {
-                        _context.Remove(personal);
-                    }
-                }
+                // Eliminar personal que ya no está en el DTO
+                cotizacionToUpdate.PersonalCotizacion = cotizacionToUpdate.PersonalCotizacion
+                    .Where(p => cotizacionDto.PersonalIds.Contains(p.ID_Personal))
+                    .ToList();
 
                 _context.Cotizacion.Update(cotizacionToUpdate);
                 await _context.SaveChangesAsync();

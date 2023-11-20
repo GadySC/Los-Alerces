@@ -99,12 +99,31 @@ namespace LosAlerces_Login.Context
                 .HasKey(pc => new { pc.ID_Cotizacion, pc.ID_Producto });
 
             builder.Entity<ProductoCotizacion>()
+                .HasOne(pc => pc.Cotizacion)
+                .WithMany(c => c.ProductosCotizacion)
+                .HasForeignKey(pc => pc.ID_Cotizacion);
+
+            builder.Entity<ProductoCotizacion>()
+                .HasOne(pc => pc.Producto)
+                .WithMany() // Aquí asumimos que no hay una propiedad de navegación en Productos hacia ProductoCotizacion
+                .HasForeignKey(pc => pc.ID_Producto);
+
+            builder.Entity<ProductoCotizacion>()
                 .Property(pc => pc.Cantidad)
                 .IsRequired();
 
-
             builder.Entity<PersonalCotizacion>()
                 .HasKey(pc => new { pc.ID_Cotizacion, pc.ID_Personal });
+
+            builder.Entity<PersonalCotizacion>()
+                .HasOne(pc => pc.Cotizacion)
+                .WithMany(c => c.PersonalCotizacion)
+                .HasForeignKey(pc => pc.ID_Cotizacion);
+
+            builder.Entity<PersonalCotizacion>()
+                .HasOne(pc => pc.Personal)
+                .WithMany() // Aquí asumimos que no hay una propiedad de navegación en Personal hacia PersonalCotizacion
+                .HasForeignKey(pc => pc.ID_Personal);
         }
     }
 }

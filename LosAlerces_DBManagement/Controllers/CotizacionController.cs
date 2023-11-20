@@ -31,33 +31,18 @@ namespace LosAlerces_DBManagement.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Cotizacion>> GetCotizacionById(int id)
-        {
-            try
-            {
-                var cotizacion = await _generalDataInterface.GetCotizacionByIdAsync(id);
-                if (cotizacion == null)
-                {
-                    return NotFound();
-                }
-                return Ok(cotizacion);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
         [HttpPost("create")]
-        public async Task<ActionResult<Cotizacion>> CreateCotizacion([FromBody] CotizacionDto cotizacionDto)
+        public async Task<ActionResult<CotizacionDto>> CreateCotizacion([FromBody] CotizacionDto cotizacionDto)
         {
             try
             {
-                var createdCotizacion = await _generalDataInterface.AddCotizacionAsync(cotizacionDto);
-                return CreatedAtAction(nameof(GetCotizacionById), new { id = createdCotizacion.ID_Cotizacion }, createdCotizacion);
+                var createdCotizacionDto = await _generalDataInterface.AddCotizacionAsync(cotizacionDto);
+
+                // Utilizamos el ID de la cotización creada para generar la URL de la nueva cotización
+                var actionName = nameof(GetCotizacionById); // Asegúrate de que este es el nombre correcto del método GetCotizacionById
+                return CreatedAtAction(actionName, new { id = createdCotizacionDto.ID_Cliente }, createdCotizacionDto);
             }
-            catch (Exception ex)
+            catch (Exception ex) 
             {
                 return StatusCode(500, ex.Message);
             }
@@ -66,10 +51,21 @@ namespace LosAlerces_DBManagement.Controllers
         [HttpPut("update/{id}")]
         public async Task<IActionResult> UpdateCotizacion(int id, [FromBody] CotizacionDto cotizacionDto)
         {
+            if (cotizacionDto == null)
+            {
+                return BadRequest("Datos de la cotizacion son invalidos.");
+            }
+
             try
             {
+                var cotizacionToUpdate = await _generalDataInterface.GetCotizacionByIdAsync(id);
+                if (cotizacionToUpdate == null)
+                {
+                    return NotFound($"Cotizacion con ID {id} no encontrada.");
+                }
+
                 await _generalDataInterface.UpdateCotizacionAsync(id, cotizacionDto);
-                return NoContent();
+                return Ok($"Cotizacion con ID {id} actualizada con exito.");
             }
             catch (Exception ex)
             {
@@ -84,6 +80,24 @@ namespace LosAlerces_DBManagement.Controllers
             {
                 await _generalDataInterface.DeleteCotizacionAsync(id);
                 return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet("filtered/by/{id}")]
+        public async Task<ActionResult<Cotizacion>> GetCotizacionById(int id)
+        {
+            try
+            {
+                var cotizacionDto = await _generalDataInterface.GetCotizacionByIdAsync(id);
+                if (cotizacionDto == null)
+                {
+                    return NotFound($"Cotización con ID {id} no encontrada.");
+                }
+                return Ok(cotizacionDto);
             }
             catch (Exception ex)
             {

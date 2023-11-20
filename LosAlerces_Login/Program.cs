@@ -45,6 +45,19 @@ builder.Services.AddScoped<IAuthRepository, AuthRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("LosAlercesCORS",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:3000", "https://localhost:3000", "http://localhost:3001", "https://localhost:3001", "http://localhost:3002", "https://localhost:3002")
+                   .AllowAnyHeader()
+                   .AllowAnyMethod()
+                   .AllowCredentials();
+
+        });
+});
+
 var app = builder.Build();
 
 // Sembrar el usuario administrador y sus roles
@@ -57,6 +70,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("LosAlercesCORS");
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

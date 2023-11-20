@@ -39,12 +39,14 @@ builder.Services.AddDbContext<LosAlercesDbContext>(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
+    options.AddPolicy("LosAlercesCORS",
         builder =>
         {
-            builder.WithOrigins("http://localhost:3000", "https://localhost:3000")
+            builder.WithOrigins("http://localhost:3000", "https://localhost:3000", "http://localhost:3001", "https://localhost:3001", "http://localhost:3002", "https://localhost:3002")
                    .AllowAnyHeader()
-                   .AllowAnyMethod();
+                   .AllowAnyMethod()
+                   .AllowCredentials();
+                    
         });
 });
 
@@ -57,6 +59,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("LosAlercesCORS");
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

@@ -11,8 +11,8 @@ namespace LosAlerces_DBManagement.Services.Interfaces
         Task UpdateClienteAsync(int clienteId, ClienteDto clienteDto);
         Task DeleteClienteAsync(int clienteId);
         Task UpdateContactoClienteAsync(int clienteId, ContactoDto contactoDto);
-        Task<IEnumerable<CotizacionDto>> GetAllCotizacionesAsync();
-        Task<CotizacionDto> GetCotizacionByIdAsync(int id);
+        Task<IEnumerable<CotizacionGetAllDto>> GetAllCotizacionesAsync();
+        Task<CotizacionGetAllDto> GetCotizacionByIdAsync(int id);
         Task<CotizacionDto> AddCotizacionAsync(CotizacionDto cotizacionDto);
         Task UpdateCotizacionAsync(int id, CotizacionDto cotizacionDto);
         Task DeleteCotizacionAsync(int id);

@@ -129,14 +129,14 @@ namespace LosAlerces_DBManagement.Services.Repository
             }
         }
 
-        public async Task<IEnumerable<CotizacionDto>> GetAllCotizacionesAsync()
+        public async Task<IEnumerable<CotizacionGetAllDto>> GetAllCotizacionesAsync()
         {
             var cotizaciones = await _context.Cotizacion
                 .Include(c => c.ProductosCotizacion)
                 .Include(c => c.PersonalCotizacion)
                 .ToListAsync();
 
-            var cotizacionesDto = cotizaciones.Select(c => new CotizacionDto
+            var cotizacionesDto = cotizaciones.Select(c => new CotizacionGetAllDto
             {
                 ID_Cotizacion = c.ID_Cotizacion,
                 ID_Cliente = c.ID_Cliente,
@@ -149,7 +149,7 @@ namespace LosAlerces_DBManagement.Services.Repository
             return cotizacionesDto;
         }
 
-        public async Task<CotizacionDto> GetCotizacionByIdAsync(int id)
+        public async Task<CotizacionGetAllDto> GetCotizacionByIdAsync(int id)
         {
             var cotizacion = await _context.Cotizacion
                 .Include(c => c.ProductosCotizacion)
@@ -161,7 +161,7 @@ namespace LosAlerces_DBManagement.Services.Repository
                 return null;
             }
 
-            var cotizacionDto = new CotizacionDto
+            var cotizacionDto = new CotizacionGetAllDto
             {
                 ID_Cotizacion = cotizacion.ID_Cotizacion,
                 ID_Cliente = cotizacion.ID_Cliente,

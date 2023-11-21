@@ -42,7 +42,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("LosAlercesCORS",
         builder =>
         {
-            builder.WithOrigins("http://localhost:3000", "https://localhost:3000", "http://localhost:3001", "https://localhost:3001", "http://localhost:3002", "https://localhost:3002")
+            builder.WithOrigins("http://localhost:3000", "https://localhost:3000", "http://localhost:3001", "https://localhost:3001", "http://localhost:3002", "https://localhost:3002", "https://localhost:7233","http://localhost:5012", "https://localhost:7013","http://localhost:5243")
                    .AllowAnyHeader()
                    .AllowAnyMethod()
                    .AllowCredentials();

@@ -50,7 +50,6 @@ namespace LosAlerces_Login.Controllers
         }
 
         [HttpPost("asignar-rol")]
-        [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> AssignRole([FromBody] RoleAssignmentModel model)
         {
             var result = await _authRepository.AssignRoleToUserAsync(model.UserEmail, model.RoleName);

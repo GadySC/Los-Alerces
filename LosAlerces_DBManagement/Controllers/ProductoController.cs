@@ -117,5 +117,18 @@ namespace LosAlerces_DBManagement.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet("export")]
+        public async Task<ActionResult> ExportProductosData()
+        {
+            // Obtener datos de PersonalDto
+            var productosData = await _generalDataInterface.GetAllProductosDtoFormatAsync();
+            string[] columnNames = new string[] { "Nombre", "Observacion", "Precio" };
+
+            // Llamada al método generalizado
+            byte[] excelFile = _generalDataInterface.ExportToExcel(productosData, columnNames);
+
+            return File(excelFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"LosAlerces_ReporteProductos_{DateTime.Now.ToString("ddMMyyyy")}.xlsx");
+        }
     }
 }

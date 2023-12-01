@@ -3,6 +3,11 @@ using LosAlerces_DBManagement.Entities;
 using LosAlerces_DBManagement.Models.Dto;
 using LosAlerces_DBManagement.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using NPOI.HSSF.UserModel;
+using NPOI.HSSF.Util;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
+using System.Collections.Generic;
 
 namespace LosAlerces_DBManagement.Services.Repository
 {
@@ -107,6 +112,29 @@ namespace LosAlerces_DBManagement.Services.Repository
                 await _context.SaveChangesAsync();
             }
             // Considerar qué hacer si el cliente no se encuentra (opcional)
+        }
+
+        public async Task<List<Cliente>> GetAllClientesEntityFormatAsync()
+        {
+            return await _context.Cliente.ToListAsync();
+        }
+
+        public async Task<List<ClienteDto>> GetAllClienteDtoFormatAsync()
+        {
+            var cliente = await _context.Cliente.ToListAsync();
+            var clienteDto = cliente.Select(c => new ClienteDto
+            {
+                name = c.name,
+                address = c.address,
+                phone = c.phone,
+                email = c.email,
+                ContactoName = c.ContactoName,
+                ContactoLastname = c.ContactoLastname,
+                ContactoEmail = c.ContactoEmail,
+                ContactoPhone = c.ContactoPhone
+            }).ToList();
+
+            return clienteDto;
         }
 
         public async Task UpdateContactoClienteAsync(int clienteId, ContactoDto contactoDto)
@@ -275,6 +303,27 @@ namespace LosAlerces_DBManagement.Services.Repository
             }
         }
 
+        public async Task<List<CotizacionExcelDto>> GetAllCotizacionesDtoFormatAsync()
+        {
+            var cotizaciones = await _context.Cotizacion
+                .Include(c => c.Cliente)
+                .ToListAsync();
+
+            var cotizacionDto = cotizaciones.Select(c => new CotizacionExcelDto
+            {
+                name = c.name,
+                nameCliente = c.Cliente != null ? $"{c.Cliente.name}" : "Cliente no disponible",
+                quotationDate = c.quotationDate.ToString("dd/MM/yyyy")
+            }).ToList();
+
+            return cotizacionDto;
+        }
+
+        public async Task<List<Cotizacion>> GetAllCotizacionesEntityFormatAsync()
+        {
+            return await _context.Cotizacion.ToListAsync();
+        }
+
         public async Task<IEnumerable<Personal>> GetPersonalListAsync()
         {
             return await _context.Personal.ToListAsync();
@@ -307,6 +356,28 @@ namespace LosAlerces_DBManagement.Services.Repository
             }
         }
 
+        public async Task<List<Personal>> GetAllPersonalEntityFormatAsync()
+        {
+            return await _context.Personal.ToListAsync();
+        }
+
+        public async Task<List<PersonalDto>> GetAllPersonalDtoFormatAsync()
+        {
+            var personal = await _context.Personal.ToListAsync();
+            var personalDto = personal.Select(c => new PersonalDto
+            {
+                name = c.name,
+                lastname = c.lastname,
+                address = c.address,
+                email = c.email,
+                phone = c.phone,
+                salary = c.salary,
+                profession = c.profession
+            }).ToList();
+
+            return personalDto;
+        }
+
         public async Task<IEnumerable<Productos>> GetProductosListAsync()
         {
             return await _context.Productos.ToListAsync();
@@ -334,9 +405,75 @@ namespace LosAlerces_DBManagement.Services.Repository
             }
         }
 
+        public async Task<List<ProductosDto>> GetAllProductosDtoFormatAsync()
+        {
+            var productos = await _context.Productos.ToListAsync();
+            var productosDto = productos.Select(c => new ProductosDto
+            {
+                name = c.name,
+                note = c.note,
+                price = c.price
+            }).ToList();
+
+            return productosDto;
+        }
+
+        public async Task<List<Productos>> GetAllProductosEntityFormatAsync()
+        {
+            return await _context.Productos.ToListAsync();
+        }
+
         public async Task<Productos> GetProductoByIdAsync(int id)
         {
             return await _context.Productos.FindAsync(id);
+        }
+
+        public byte[] ExportToExcel<T>(List<T> data, string[] columnNames)
+        {
+            using var workbook = new XSSFWorkbook();
+            var sheet = workbook.CreateSheet("Data");
+
+            var headerCellStyle = workbook.CreateCellStyle();
+            headerCellStyle.FillForegroundColor = IndexedColors.LightGreen.Index;
+            headerCellStyle.FillPattern = FillPattern.SolidForeground;
+            headerCellStyle.BorderTop = BorderStyle.Thin;
+            headerCellStyle.TopBorderColor = IndexedColors.Black.Index;
+            headerCellStyle.BorderLeft = BorderStyle.Thin;
+            headerCellStyle.LeftBorderColor = IndexedColors.Black.Index;
+            headerCellStyle.BorderRight = BorderStyle.Thin;
+            headerCellStyle.RightBorderColor = IndexedColors.Black.Index;
+            headerCellStyle.BorderBottom = BorderStyle.Thin;
+            headerCellStyle.BottomBorderColor = IndexedColors.Black.Index;
+
+            var headerRow = sheet.CreateRow(0);
+            for (int i = 0; i < columnNames.Length; i++)
+            {
+                var cell = headerRow.CreateCell(i);
+                cell.SetCellValue(columnNames[i]);
+                cell.CellStyle = headerCellStyle;
+            }
+
+            var properties = typeof(T).GetProperties();
+            int rowNumber = 1;
+            foreach (var item in data)
+            {
+                var row = sheet.CreateRow(rowNumber++);
+                for (int i = 0; i < properties.Length; i++)
+                {
+                    var cell = row.CreateCell(i);
+                    var value = properties[i].GetValue(item, null)?.ToString() ?? string.Empty;
+                    cell.SetCellValue(value);
+                }
+            }
+
+            for (int i = 0; i < properties.Length; i++)
+            {
+                sheet.AutoSizeColumn(i);
+            }
+
+            using var stream = new MemoryStream();
+            workbook.Write(stream);
+            return stream.ToArray();
         }
     }
 }

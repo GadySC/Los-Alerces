@@ -1,4 +1,6 @@
-﻿namespace LosAlerces_DBManagement.Models.Dto
+﻿using NPOI.SS.Formula.Functions;
+
+namespace LosAlerces_DBManagement.Models.Dto
 {
     public class ClienteDto
     {

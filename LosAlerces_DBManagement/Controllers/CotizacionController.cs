@@ -104,5 +104,18 @@ namespace LosAlerces_DBManagement.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpGet("export")]
+        public async Task<ActionResult> ExportCotizacionesData()
+        {
+            // Obtener datos de PersonalDto
+            var cotizaciones = await _generalDataInterface.GetAllCotizacionesDtoFormatAsync();
+            string[] columnNames = new string[] { "Nombre de la Cotizacion", "Nombre del Cliente", "Fecha de Cotizacion" };
+
+            // Llamada al método generalizado
+            byte[] excelFile = _generalDataInterface.ExportToExcel(cotizaciones, columnNames);
+
+            return File(excelFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"LosAlerces_ReporteCotizaciones_{DateTime.Now.ToString("ddMMyyyy")}.xlsx");
+        }
     }
 }

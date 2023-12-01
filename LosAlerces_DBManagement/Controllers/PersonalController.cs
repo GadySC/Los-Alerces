@@ -106,5 +106,18 @@ namespace LosAlerces_DBManagement.Controllers
             }
             return Ok(personal);
         }
+
+        [HttpGet("export")]
+        public async Task<ActionResult> ExportPersonalData()
+        {
+            // Obtener datos de PersonalDto
+            var personalData = await _generalDataInterface.GetAllPersonalDtoFormatAsync();
+            string[] columnNames = new string[] { "Nombre", "Apellido", "Profesión", "Salario", "Correo Electrónico", "Dirección", "Teléfono" };
+
+            // Llamada al método generalizado
+            byte[] excelFile = _generalDataInterface.ExportToExcel(personalData, columnNames);
+
+            return File(excelFile, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"LosAlerces_ReportePersonal_{DateTime.Now.ToString("ddMMyyyy")}.xlsx");
+        }
     }
 }
